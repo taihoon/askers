@@ -1,0 +1,66 @@
+<div class="navbar bg-white breadcrumb-bar">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+      <li class="breadcrumb-item">Channel</li>
+      <li class="breadcrumb-item active" aria-current="page">{{ channel.code }}</li>
+    </ol>
+  </nav>
+  <div class="dropdown">
+    <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+      <i class="material-icons">settings</i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a *ngIf="isChannelOwner"
+        [routerLink]="['/channels', channel.code, 'edit']"
+        class="dropdown-item">Edit Channel</a>
+      <button type="button" class="btn btn-link dropdown-item" (click)="share()">Share Channel</button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-11 col-xl-10">
+      <div class="page-header">
+        <h1>@{{ channel.code }}</h1>
+        <p class="lead">{{ channel.desc }}</p>
+      </div>
+      <div class="form">
+        <app-post-form
+          mode="save"
+          [post]="newPost"
+          (submitPost)="onSubmitPost()"></app-post-form>
+      </div>
+      <div class="clearfix"></div>
+      <div class="row mt-4 content-list-head">
+        <div class="col-auto">
+          <h3>ASKS</h3>
+        </div>
+        <!-- <form class="col-md-auto">
+          <div class="input-group input-group-round">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="material-icons">filter_list</i>
+              </span>
+            </div>
+            <input type="search" class="form-control filter-list-input" placeholder="Filter tasks">
+          </div>
+        </form> -->
+      </div>
+      <div class="card-list">
+        <div class="card-list-body">
+          <ng-container *ngIf="posts$ | async as posts">
+            <ng-container *ngIf="posts.length > 0 else nopost">
+              <div *ngFor="let post of posts" class="card card-task">
+                <app-post-detail [post]="post"></app-post-detail>
+              </div>
+            </ng-container>
+            <ng-template #nopost>
+              <p>no post</p>
+            </ng-template>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.editor,
+.preview {
+  min-height: 96px;
+}
+
+.preview {
+  height: auto;
+}
+
+.editor:focus,
+.editor:active,
+button:focus,
+button:active {
+    outline: none !important;
+    box-shadow: none !important;
+}

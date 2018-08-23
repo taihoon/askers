@@ -1,0 +1,138 @@
+<a [routerLink]="['/']" class="navbar-brand">
+  <img src="../../../assets/img/logo.png" width="64" height="64" alt="Askers Logo">
+  <strong class="h2 ml-0 align-bottom text-flamingo">ASKERS</strong>
+</a>
+<div class="d-flex align-items-center">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="d-block d-lg-none ml-2">
+    <div *ngIf="user | async let user" class="dropdown">
+      <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img [alt]="user.displayName" [src]="user.photoURL" class="avatar">
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <!-- <a href="nav-side-user.html" class="dropdown-item">Profile</a>
+        <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a> -->
+        <a *ngIf="!user.authenticated" [routerLink]="['/login']" class="btn btn-link dropdown-item">Log in</a>
+        <button *ngIf="user.authenticated" (click)="logout()" type="button" class="btn btn-link dropdown-item">Log Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="collapse navbar-collapse flex-column" id="navbar-collapse">
+  <ul class="navbar-nav d-lg-block">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/']">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/kishu/asker">Github</a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2">Github</a>
+      <div id="submenu-2" class="collapse">
+        <ul class="nav nav-small flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/kishu/asker">readme</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/kishu/asker/issues">issues</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/kishu/asker/stargazers">stargazers</a>
+          </li>
+        </ul>
+      </div>
+    </li> -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" href="https://github.com/kishu/asker">Documentation</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/kishu/asker">Changelog</a>
+    </li> -->
+  </ul>
+  <hr>
+  <div class="d-none d-lg-block w-100">
+    <span class="quick-links text-small">Quick Links</span>
+    <ul class="nav nav-small flex-column mt-2">
+      <li class="nav-item">
+        <a href="https://github.com/kishu/asker/issues" class="nav-link">Issues</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a href="nav-side-project.html" class="nav-link">Project</a>
+      </li>
+      <li class="nav-item">
+        <a href="nav-side-task.html" class="nav-link">Single Task</a>
+      </li>
+      <li class="nav-item">
+        <a href="nav-side-kanban-board.html" class="nav-link">Kanban Board</a>
+      </li> -->
+    </ul>
+    <hr>
+  </div>
+  <div>
+    <form>
+      <div class="input-group input-group-dark input-group-round">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="material-icons">search</i>
+          </span>
+        </div>
+        <input [(ngModel)]="channel" type="search" name="channel" class="form-control form-control-dark" placeholder="Channel">
+      </div>
+    </form>
+    <div class="add-new dropdown mt-2">
+      <button class="btn btn-primary btn-block" type="button" (click)="go()">
+        Go!
+      </button>
+      <!-- <div class="dropdown-menu" aria-labelledby="newContentButton">
+        <a class="dropdown-item" href="#">Team</a>
+        <a class="dropdown-item" href="#">Project</a>
+        <a class="dropdown-item" href="#">Task</a>
+      </div> -->
+    </div>
+  </div>
+</div>
+<div class="d-none d-lg-block">
+  <div *ngIf="user | async let user" class="dropup">
+    <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <img [alt]="user.displayName" [src]="user.photoURL" class="avatar">
+    </a>
+    <div class="dropdown-menu">
+      <!-- <a href="nav-side-user.html" class="dropdown-item">Profile</a>
+      <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a> -->
+      <a *ngIf="!user.authenticated" [routerLink]="['/login']" class="btn btn-link dropdown-item">Log in</a>
+      <button *ngIf="user.authenticated" (click)="logout()" type="button" class="btn btn-link dropdown-item">Log Out</button>
+    </div>
+  </div>
+</div>
+<!-- < header *ngIf="resolved">
+  <div class="navbar navbar-light">
+    <div class="container">
+      <a routerLink="/" class="navbar-brand">
+        <img src="../../../assets/img/logo.png" width="32" height="32" alt="Askers Logo">
+        <strong class="text-flamingo h2 ml-1 align-bottom">ASKERS</strong>
+      </a>
+      <div *ngIf="(resolved && user) then authenticated else guest"></div>
+      <ng-template #authenticated>
+          <div class="pt-2">
+            <span class="display-name text-dark">
+              {{ user.displayName }}
+            </span>
+            <button
+              (click)="logout()"
+              class="btn btn-link text-dark py-0 px-0">
+              <i class="fas fa-lg fa-sign-out-alt align-baseline" title="log out"></i>
+            </button>
+          </div>
+        </ng-template>
+      <ng-template #guest>
+        <div>
+          <a [routerLink]="['/login']" [queryParams]="rediretUrlQueryString" class="btn btn-link text-dark py-0 px-0">
+            <i class="fas fa-sign-in-alt align-text-top" title="log in"></i>
+          </a>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</header> -->

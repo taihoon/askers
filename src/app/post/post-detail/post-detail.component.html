@@ -1,0 +1,90 @@
+<div class="progress">
+  <div [ngClass]="{
+    'progress-bar bg-info': true,
+    'bg-danger': isFavorited}"></div>
+</div>
+<div class="card-body">
+  <ng-container *ngIf="!editable then contents else form"></ng-container>
+  <ng-template #contents>
+    <div class="card-title">
+      <p data-filter-by="text" class="P-filter-by-text showdown" [innerHTML]="post.contents | showdown"></p>
+      <span class="text-small" [title]="post.created | fsTimestamp | date:'yyyy.MM.dd HH:mm:ss'">
+        <i class="material-icons time mr-1 align-text-top">access_time</i>{{ post.created | fsTimestamp | relativeDate }}
+        by {{ post.user.displayName }}
+      </span>
+    </div>
+    <div class="card-meta">
+      <div>
+        <button (click)="onToggleFavoritePost(post)" class="btn btn-link m-0 p-0">
+          <i [ngClass]="{
+            'favorite material-icons align-top text-muted': true,
+            'text-flamingo': isFavorited }">favorite</i>
+        </button>
+        <ul class="avatars d-inline-block">
+          <li *ngFor="let favoritedUser of favorites">
+            <a href="#" data-toggle="tooltip" [title]="favoritedUser.displayName">
+              <img [alt]="favoritedUser.displayName" class="avatar" [src]="favoritedUser.photoURL">
+            </a>
+          </li>
+        </ul>
+        <small *ngIf="moreFavoritedCount > 0" class="text-muted align-bottom">...more {{ moreFavoritedCount }}</small>
+      </div>
+      <div class="d-flex align-items-center">
+        <!-- <i class="material-icons">playlist_add_check</i> -->
+      </div>
+      <div *ngIf="isCreated" class="dropdown card-options">
+        <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons">more_vert</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(27px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+          <button class="btn btn-link dropdown-item " (click)="onEditPost()">Edit</button>
+          <button class="btn btn-link dropdown-item text-danger" (click)="onDeletePost()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #form>
+    <app-post-form
+      mode="update"
+      [post]="post"
+      (submitPost)="onSubmitPost()"
+      (cancelSubmitPost)="onCancelSubmitPost()"></app-post-form>
+  </ng-template>
+</div>
+<!-- <ng-template *ngIf="!editable then contents else form"></ng-template>
+
+<ng-template #form>
+  <app-post-form
+    mode="update"
+    [post]="post"
+    (submitPost)="onSubmitPost($event)"
+    (cancelSubmitPost)="onCancelSubmitPost()"></app-post-form>
+</ng-template>
+
+<ng-template #contents>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-10 px-0 pr-md-4">
+          <div class="text-dark mb-1 showdown" [innerHTML]="post.contents | showdown"></div>
+      </div>
+      <div class="col-12 col-md-2 px-0">
+          <p class="info text-muted mb-1">
+            <span class="d-md-block mr-2 mr-md-0" [title]="post.created | fsTimestamp | date:'yyyy.MM.dd HH:mm:ss'"><i class="far fa-clock mr-1"></i>{{ post.created | fsTimestamp | relativeDate }}</span>
+            <span class="d-md-block">by {{ post.user.displayName }}</span>
+          </p>
+          <div class="func d-inline-block d-md-block">
+            <button type="button" class="btn btn-link text-storm-grey m-0 p-0 mr-1"><i class="far fa-heart fa-lg" title="like"></i></button>
+            <button type="button" class="btn btn-link text-storm-grey m-0 p-0 mr-1"><i class="far fa-plus-square fa-lg" title="reply"></i></button>
+            <button *ngIf="isCreated"
+              type="button"
+              (click)="onEditPost($event)"
+              class="btn btn-link text-storm-grey m-0 p-0 mr-1"><i class="far fa-edit" title="edit"></i></button>
+            <button *ngIf="isCreated"
+              type="button"
+              (click)="onDeletePost($event)"
+              class="btn btn-link text-storm-grey m-0 p-0"><i class="far fa-trash-alt" title="delete"></i></button>
+          </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->

@@ -1,0 +1,98 @@
+<form #postForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="contents" class="d-none">body</label>
+        <textarea
+          id="contents"
+          rows="3"
+          required
+          minlength="2"
+          maxlength="2048"
+          [(ngModel)]="post.contents"
+          name="contents"
+          [ngClass]="{
+            'form-control mb-0 editor': true,
+            'position-absolute': preview
+          }"
+          [style.visibility]="!preview ? 'visible' : 'hidden'"></textarea>
+        <div
+          *ngIf="preview"
+          [innerHTML]="post.contents | showdown"
+          class="form-control preview"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="btn-group btn-group-sm float-left" role="group">
+        <button
+          type="button"
+          (click)="onPreview(false)"
+          [ngClass]="{
+            'btn btn-outline-info': true,
+            'active': !preview
+          }">write</button>
+        <button
+          type="button"
+          (click)="onPreview(true)"
+          [ngClass]="{
+            'btn btn-outline-info': true,
+            'active': preview
+          }">preview</button>
+      </div>
+      <div class="float-right">
+        <button
+          type="submit"
+          [disabled]="!postForm.valid"
+          [ngClass]="{
+            'btn btn-sm': true,
+            'btn-outline-danger': !postForm.valid,
+            'btn-danger': postForm.valid
+          }">SUBMIT</button>
+        <button
+          *ngIf="mode === 'update'"
+          type="button"
+          (click)="onCancel()"
+          class="btn btn-sm btn-link text-secondary">CANCEL</button>
+      </div>
+    </div>
+  </div>
+      <!-- <div class="btn-group btn-group-sm float-right function">
+        <button type="button"
+          (click)="onWrite()"
+          [ngClass] = "{
+            'font-weight-light btn': true,
+            'btn-secondary': !preview,
+            'btn-outline-secondary': preview
+          }">write</button>
+        <button type="button"
+          (click)="onPreview()"
+          [ngClass] = "{
+            'font-weight-light btn': true,
+            'btn-secondary': preview,
+            'btn-outline-secondary': !preview
+          }">preview</button>
+      </div> -->
+    <!-- <div class="col-12 col-md-2 mt-3 mt-md-0">
+      <div class="form-group">
+        <div class="row">
+          <div class="col">
+            <button
+              type="submit"
+              [disabled]="!postForm.valid"
+              [ngClass]="{
+                'btn btn-block': true,
+                'btn-outline-secondary': mode=='update',
+                'btn-lg btn-dark': mode=='save'}">SUBMIT</button>
+          </div>
+          <div *ngIf="mode=='udpate'" class="col">
+            <button
+              type="button"
+              (click)="onCancel($event)"
+              class="btn btn-block btn-outline-secondary">CANCEL</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+</form>

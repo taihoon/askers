@@ -1,0 +1,22 @@
+<div class="breadcrumb-bar navbar bg-white sticky-top">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active">Create Channel</li>
+    </ol>
+  </nav>
+</div>
+<div class="jumbotron container-fluid">
+  <div class="container">
+    <h1 class="display-4">Create<span class="d-none d-md-inline"> a new #CHANNEL!</span></h1>
+    <p class="lead"><span class="d-none d-md-inline">Use this form as a way to quickly start any new channel.<br></span>
+      <span>You only need to enter a few items.</span></p>
+  </div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <app-channel-form type="create" [channel]="channel"></app-channel-form>
+    </div>
+  </div>
+</div>

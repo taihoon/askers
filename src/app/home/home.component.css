@@ -1,0 +1,42 @@
+.cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 8em 1.5rem;
+  background: #fff url('../../assets/img/bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 320px) {
+  .cover {
+    padding-top: 4em;
+  }
+
+  .cover-heading1 {
+    font-size: 3rem;
+    line-height: 1.8rem;
+  }
+
+  .cover-heading1 .user {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .cover {
+    padding-top: 8em;
+  }
+
+  .cover-heading1 {
+    font-size: 4rem;
+    line-height: 0.98em;
+  }
+
+  .cover-heading1 .user {
+    font-size: 3rem;
+  }
+}
+

@@ -1,0 +1,70 @@
+<main>
+  <div class="jumbotron container-fluid">
+    <div class="container">
+      <h1 class="display-4">Create<span class="d-none d-md-inline"> a new #CHANNEL!</span></h1>
+      <p class="lead"><span class="d-none d-md-inline">Use this form as a way to quickly start any new channel.<br></span>
+        <span>You only need to enter a few items.</span></p>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <form [formGroup]="registForm" (ngSubmit)="onSubmit($event)">
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="email" id="email" formControlName="email"
+            placeholder="Email" class="form-control">
+          <div *ngIf="(email.pristine && email.untouched) || email.valid" class="form-text text-muted">
+            <small>Provide a valid email address.</small>
+          </div>
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-text text-danger">
+            <small *ngIf="email.errors['required']" >Email is required.</small>
+            <small *ngIf="email.errors['email']">Valid Email is required.</small>
+            <small *ngIf="email.errors['alreadyInUse']">This email already in use. Provide a valid email is required.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+          <input type="password" id="password" formControlName="password"
+            placeholder="Password" class="form-control">
+          <div *ngIf="(password.pristine && password.untouched) || password.valid" class="form-text text-muted">
+            <small>Provide a valid password. It must be 8-20 characters long.</small>
+          </div>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-danger">
+            <small *ngIf="password.errors['required']" >Password is required.</small>
+            <small *ngIf="password.errors['minlength']">Password is too short. It must be 8-20 characters long.</small>
+            <small *ngIf="password.errors['maxlength']">Password is too long. It must be 8-20 characters long.</small>
+            <small *ngIf="password.errors['weekPassword']">This password is not strong enough</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="passwordConfirm" class="col-sm-2 col-form-label">Password Confirm</label>
+        <div class="col-sm-10">
+          <input type="password" id="passwordConfirm" formControlName="passwordConfirm"
+            placeholder="Password Confirm" class="form-control">
+          <div *ngIf="(passwordConfirm.pristine && passwordConfirm.untouched) || passwordConfirm.valid" class="form-text text-muted">
+            <small>Provide a password confirm.</small>
+          </div>
+          <div *ngIf="passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)" class="form-text text-danger">
+            <small *ngIf="passwordConfirm.errors['identicalTo']" >Password confirm is NOT identical to input.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <button type="submit"
+            [disabled]="registForm.invalid"
+            [ngClass]="{
+              'btn btn-block': true,
+              'btn-outline-secondary': registForm.invalid,
+              'btn-primary': registForm.valid }">
+              <i *ngIf="submitted" class="fas fa-circle-notch fa-spin"></i>
+              <span *ngIf="!submitted">Submit</span>
+            </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

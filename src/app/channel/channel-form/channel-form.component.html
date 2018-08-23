@@ -1,0 +1,87 @@
+<form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="code"><span class="h4 font-weight-bold">Code</span></label>
+    <input type="text" id="code" formControlName="code"
+      [value]="code.value | lowercase | snakecase"
+      class="form-control form-control-lg" autocomplete="off" autofocus />
+    <div *ngIf="(code.pristine && code.untouched) || code.valid" class="form-text text-muted">
+      <small>Provide a valid channel code.</small>
+    </div>
+    <div *ngIf="code.invalid && (code.dirty || code.touched)" class="form-text text-danger">
+      <small *ngIf="code.errors['required']">Channel code is required.</small>
+      <small *ngIf="code.errors['minlength']">Channel code is too short. It must be 4-20 characters long.</small>
+      <small *ngIf="code.errors['maxlength']">Channel code is too long. It must be 4-20 characters long.</small>
+      <small *ngIf="code.errors['alreadyInUse']">This channel code already in use. Provide a valid channel code is required.</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="title"><span class="h4 font-weight-bold">Title</span></label>
+    <input type="text" id="title" formControlName="title"
+      class="form-control form-control-lg" autocomplete="off" />
+    <div *ngIf="(title.pristine && title.untouched) || title.valid" class="form-text text-muted">
+      <small>Provide a valid channel title.</small>
+    </div>
+    <div *ngIf="title.invalid && (title.dirty || title.touched)" class="form-text text-danger">
+      <small *ngIf="title.errors['required']">Channel title is required.</small>
+      <small *ngIf="title.errors['minlength']">Channel title is too short. It must be 4-50 characters long.</small>
+      <small *ngIf="title.errors['maxlength']">Channel title is too long. It must be 4-50 characters long.</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="desc"><span class="h4 font-weight-bold">Description</span></label>
+    <textarea id="desc" formControlName="desc" rows="3"
+      class="form-control form-control-lg"></textarea>
+    <div *ngIf="(desc.pristine && desc.untouched) || desc.valid" class="form-text text-muted">
+      <small>Provide a valid channel description.</small>
+    </div>
+    <div *ngIf="desc.invalid && (desc.dirty || desc.touched)" class="form-text text-danger">
+      <small *ngIf="desc.errors['required']">Channel description is required.</small>
+      <small *ngIf="desc.errors['minlength']">Channel description is too short. It must be 4-20 characters long.</small>
+      <small *ngIf="desc.errors['maxlength']">Channel description is too long. It must be 4-20 characters long.</small>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="start"><span class="h4 font-weight-bold">Start</span></label>
+        <input type="datetime-local" id="start" formControlName="start"
+          [value]="channelForm.get('start').value | fsTimestamp | date:'yyyy-MM-ddTHH:mm'"
+          class="form-control form-control-lg" />
+        <div *ngIf="(start.pristine && start.untouched) || start.valid" class="form-text text-muted">
+          <small>Provide a valid channel start date.</small>
+        </div>
+        <div *ngIf="(start.invalid) && (start.dirty || start.touched)" class="form-text text-danger">
+          <small *ngIf="start.errors['required']">Channel start is required.</small>
+          <small *ngIf="start.errors['mindate']">Channel start is less then current. It must a date after current.</small>
+          <small *ngIf="start.errors['maxdate']">Channel start is greater then end date. It must a date before end.</small>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="end"><span class="h4 font-weight-bold">End</span></label>
+        <input type="datetime-local" id="end" formControlName="end"
+          [value]="channelForm.get('end').value | fsTimestamp | date:'yyyy-MM-ddTHH:mm'"
+          class="form-control form-control-lg" />
+        <div *ngIf="(end.pristine && end.untouched) || end.valid" class="form-text text-muted">
+          <small>Provide a valid channel end date.</small>
+        </div>
+        <div *ngIf="(end.invalid) && (end.dirty || end.touched)" class="form-text text-danger">
+          <small *ngIf="end.errors['required']">Channel end is required.</small>
+          <small *ngIf="end.errors['mindate']">Channel end is less then start. It must a date after start.</small>
+          <small *ngIf="end.errors['maxdate']">Channel start is greater then max date. It must within 3 months from the start date.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    type="submit"
+    [disabled]="!channelForm.valid"
+    [ngClass]="{
+      'btn btn-lg btn-block mt-4' : true,
+      'btn-primary': channelForm.valid,
+      'btn-outline-primary': !channelForm.valid}">
+      <i *ngIf="submitted" class="fas fa-circle-notch fa-spin"></i>
+      <span *ngIf="!submitted">Submit</span>
+    </button>
+</form>

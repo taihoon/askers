@@ -1,0 +1,28 @@
+<main role="main" style="padding: 4em 1.5rem 8em">
+  <div class="container">
+    <div *ngIf="!channel then createTmpl else channelTmpl"></div>
+  </div>
+</main>
+
+<ng-template #createTmpl>
+  <h1 class="cover-heading">{{ channelCode }} is not yet channel.</h1>
+  <p class="lead">
+    There is no channel {{ channelCode }}.
+    Please create the {{ channelCode }}channel after login.
+  </p>
+  <a
+    [routerLink]="!isAuthenticated ? ['/login'] : ['/channels', 'new', 'edit']"
+    [queryParams]="{ channelCode: channelCode }"
+    class="btn btn-lg btn-outline-secondary">Create {{ channelCode }}</a>
+</ng-template>
+
+<ng-template #channelTmpl>
+  <h1 class="cover-heading">Welcome {{ channelCode }} channel.</h1>
+  <p class="lead">
+    Channel {{ channelCode }}.
+    Ask any question the {{ channelCode }}channel.
+  </p>
+  <a
+    [routerLink]="['/channels', channelCode, 'posts']"
+    class="btn btn-lg btn-outline-secondary">go {{ channelCode }}</a>
+</ng-template>

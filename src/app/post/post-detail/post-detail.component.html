@@ -9,16 +9,20 @@
     <div class="card-title">
       <p data-filter-by="text" class="P-filter-by-text showdown" [innerHTML]="post.contents | showdown"></p>
       <span class="text-small" [title]="post.created | fsTimestamp | date:'yyyy.MM.dd HH:mm:ss'">
-        <i class="material-icons time mr-1 align-text-top">access_time</i>{{ post.created | fsTimestamp | relativeDate }}
-        by {{ post.user.displayName }}
+          <i class="far fa-clock" title="created"><span class="sr-only">created</span></i>
+          {{ post.created | fsTimestamp | relativeDate }}
+          by {{ post.user.displayName }}
       </span>
     </div>
     <div class="card-meta">
       <div>
         <button (click)="onToggleFavoritePost(post)" class="btn btn-link m-0 p-0">
           <i [ngClass]="{
-            'favorite material-icons align-top text-muted': true,
-            'text-flamingo': isFavorited }">favorite</i>
+              'fas fa-heart fa-2x': true,
+              'text-muted': !isFavorited,
+              'text-flamingo': isFavorited}" title="favorite">
+            <span class="sr-only">favorite</span>
+          </i>
         </button>
         <ul class="avatars d-inline-block">
           <li *ngFor="let favoritedUser of favorites">
@@ -34,7 +38,7 @@
       </div>
       <div *ngIf="isCreated" class="dropdown card-options">
         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="material-icons">more_vert</i>
+            <i class="fas fa-ellipsis-v" title="more"><span class="sr-only">more</span></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(27px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
           <button class="btn btn-link dropdown-item " (click)="onEditPost()">Edit</button>

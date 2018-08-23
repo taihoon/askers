@@ -29,7 +29,10 @@
           [ngClass]="{
               'btn btn-lg mr-3': true,
               'btn-dark': joinForm.valid,
-              'btn-outline-dark': joinForm.invalid}"><i *ngIf="submitted" class="fas fa-circle-notch fa-spin"></i><span *ngIf="!submitted">Join</span></button>
+              'btn-outline-dark': joinForm.invalid}">
+            <i *ngIf="submitted" class="fas fa-circle-notch fa-spin" title="joinning"><span class="sr-only">joinning</span></i>
+            <span *ngIf="!submitted">Join</span>
+          </button>
           <span class="font-weight-bold text-black-50 mr-2" style="font-size:1.5em">or</span>
           <a [routerLink]="['/channels', 'new', 'edit']" [queryParams]="{channelCode: channelCode}" class="btn btn-lg btn-link p-0 text-dark font-weight-bold" style="font-size:1.75em">Create</a>
       </div>

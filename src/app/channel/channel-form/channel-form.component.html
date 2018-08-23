@@ -81,7 +81,7 @@
       'btn btn-lg btn-block mt-4' : true,
       'btn-primary': channelForm.valid,
       'btn-outline-primary': !channelForm.valid}">
-      <i *ngIf="submitted" class="fas fa-circle-notch fa-spin"></i>
+      <i *ngIf="submitted" class="fas fa-circle-notch fa-spin" title="submitting"><span class="sr-only">submitting</span></i>
       <span *ngIf="!submitted">Submit</span>
     </button>
 </form>

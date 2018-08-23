@@ -106,33 +106,3 @@
     </div>
   </div>
 </div>
-<!-- < header *ngIf="resolved">
-  <div class="navbar navbar-light">
-    <div class="container">
-      <a routerLink="/" class="navbar-brand">
-        <img src="../../../assets/img/logo.png" width="32" height="32" alt="Askers Logo">
-        <strong class="text-flamingo h2 ml-1 align-bottom">ASKERS</strong>
-      </a>
-      <div *ngIf="(resolved && user) then authenticated else guest"></div>
-      <ng-template #authenticated>
-          <div class="pt-2">
-            <span class="display-name text-dark">
-              {{ user.displayName }}
-            </span>
-            <button
-              (click)="logout()"
-              class="btn btn-link text-dark py-0 px-0">
-              <i class="fas fa-lg fa-sign-out-alt align-baseline" title="log out"></i>
-            </button>
-          </div>
-        </ng-template>
-      <ng-template #guest>
-        <div>
-          <a [routerLink]="['/login']" [queryParams]="rediretUrlQueryString" class="btn btn-link text-dark py-0 px-0">
-            <i class="fas fa-sign-in-alt align-text-top" title="log in"></i>
-          </a>
-        </div>
-      </ng-template>
-    </div>
-  </div>
-</header> -->

@@ -1,0 +1,15 @@
+.logo {
+  width: 4rem;
+  height: 4rem;
+}
+
+@media (max-width: 767.98px) {
+  .logo {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+.navbar-toggler {
+  border: none;
+}

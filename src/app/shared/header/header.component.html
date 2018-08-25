@@ -1,10 +1,10 @@
 <a [routerLink]="['/']" class="navbar-brand">
-  <img src="../../../assets/img/logo.png" width="64" height="64" alt="Askers Logo">
+  <img src="../../../assets/img/logo.png" class="logo" alt="Askers Logo">
   <strong class="h2 ml-0 align-bottom text-flamingo">ASKERS</strong>
 </a>
 <div class="d-flex align-items-center">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-bars fa-lg" title="menu"><span class="sr-only">menu</span></i>
   </button>
   <div class="d-block d-lg-none ml-2">
     <div *ngIf="user | async let user" class="dropdown">
@@ -75,7 +75,7 @@
       <div class="input-group input-group-dark input-group-round">
         <div class="input-group-prepend">
           <span class="input-group-text">
-            <i class="material-icons">search</i>
+              <i class="fas fa-search"><span class="sr-only">search</span></i>
           </span>
         </div>
         <input [(ngModel)]="channel" type="search" name="channel" class="form-control form-control-dark" placeholder="Channel">
@@ -106,33 +106,3 @@
     </div>
   </div>
 </div>
-<!-- < header *ngIf="resolved">
-  <div class="navbar navbar-light">
-    <div class="container">
-      <a routerLink="/" class="navbar-brand">
-        <img src="../../../assets/img/logo.png" width="32" height="32" alt="Askers Logo">
-        <strong class="text-flamingo h2 ml-1 align-bottom">ASKERS</strong>
-      </a>
-      <div *ngIf="(resolved && user) then authenticated else guest"></div>
-      <ng-template #authenticated>
-          <div class="pt-2">
-            <span class="display-name text-dark">
-              {{ user.displayName }}
-            </span>
-            <button
-              (click)="logout()"
-              class="btn btn-link text-dark py-0 px-0">
-              <i class="fas fa-lg fa-sign-out-alt align-baseline" title="log out"></i>
-            </button>
-          </div>
-        </ng-template>
-      <ng-template #guest>
-        <div>
-          <a [routerLink]="['/login']" [queryParams]="rediretUrlQueryString" class="btn btn-link text-dark py-0 px-0">
-            <i class="fas fa-sign-in-alt align-text-top" title="log in"></i>
-          </a>
-        </div>
-      </ng-template>
-    </div>
-  </div>
-</header> -->

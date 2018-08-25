@@ -3,8 +3,7 @@
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit($event)"
     class="form-signin">
-    <i class="fab fa-replyd display-1 text-muted"></i>
-    <h1 class="h3 mb-3 font-weight-normal text-primary">Please log in</h1>
+    <h2 class="h3 mb-3 font-weight-normal text-primary">Please log in</h2>
     <label for="email" class="sr-only">Email address</label>
     <input type="email" id="email" formControlName="email"
       placeholder="Email" class="form-control">
@@ -25,16 +24,16 @@
           'btn-outline-secondary': loginForm.invalid}">Log in</button>
     <div class="social mt-4">
       <button (click)="onLoginByProvider('facebook')" class="btn btn-link">
-        <i class="fab fa-facebook-square text-secondary" title="facebook"></i>
+        <i class="fab fa-facebook-square text-secondary" title="facebook"><span class="sr-only">facebook</span></i>
       </button>
       <button (click)="onLoginByProvider('github')" class="btn btn-link">
-        <i class="fab fa-github text-secondary" title="github"></i>
+        <i class="fab fa-github text-secondary" title="github"><span class="sr-only">github</span></i>
       </button>
       <button (click)="onLoginByProvider('twitter')" class="btn btn-link">
-        <i class="fab fa-twitter text-secondary" title="twitter"></i>
+        <i class="fab fa-twitter text-secondary" title="twitter"><span class="sr-only">twitter</span></i>
       </button>
       <button (click)="onLoginByProvider('google')" class="btn btn-link">
-        <i class="fab fa-google text-secondary" title="google"></i>
+        <i class="fab fa-google text-secondary" title="google"><span class="sr-only">google</span></i>
       </button>
     </div>
     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-text text-danger">

@@ -60,7 +60,7 @@
               'btn btn-block': true,
               'btn-outline-secondary': registForm.invalid,
               'btn-primary': registForm.valid }">
-              <i *ngIf="submitted" class="fas fa-circle-notch fa-spin"></i>
+              <i *ngIf="submitted" class="fas fa-circle-notch fa-spin" title="submitting"><span class="sr-only">submitting</span></i>
               <span *ngIf="!submitted">Submit</span>
             </button>
         </div>

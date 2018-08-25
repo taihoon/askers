@@ -31,15 +31,19 @@
           [post]="newPost"
           (submitPost)="onSubmitPost()"></app-post-form>
       </div>
-      <div class="row mt-4 content-list-head">
+      <div class="row justify-content-end mt-4">
         <div class="col-auto">
-          <h3>ASKS</h3>
-        </div>
-        <div class="col-auto">
-          <div class="btn-group btn-group-sm" role="group" aria-label="sort">
+            <form class="form-inline">
+              <label for="sort" class="mb-0">Sort By:</label>
+              <select id="sort" class="form-control ml-1" [formControl]="sort">
+                <option value="favoriteCount">favorite</option>
+                <option value="created">created</option>
+              </select>
+          </form>
+          <!-- <div class="btn-group btn-group-sm" role="group" aria-label="sort">
             <button type="button" class="btn btn btn-outline-secondary">newest</button>
             <button type="button" class="btn btn btn-outline-secondary">Middle</button>
-          </div>
+          </div> -->
         </div>
         <!-- <form class="col-md-auto">
           <div class="input-group input-group-round">
@@ -52,7 +56,7 @@
           </div>
         </form> -->
       </div>
-      <div class="card-list">
+      <div class="card-list mt-2">
         <div class="card-list-body">
           <ng-container *ngIf="posts$ | async as posts">
             <ng-container *ngIf="posts.length > 0 else nopost">

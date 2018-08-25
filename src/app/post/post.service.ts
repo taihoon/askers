@@ -3,7 +3,6 @@ import { firestore } from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { UserInfo } from '../auth/user';
 import { Post } from './post';
 import { AuthService } from '../auth/auth.service';
 
@@ -38,11 +37,18 @@ export class PostService {
     );
   }
 
-  getPostByChannelId(channelId: string): Observable<Post[]> {
+  getPostByChannelId(channelId: string, orderBy: string): Observable<Post[]> {
     // TODO https://github.com/angular/angularfire2/issues/1490
     return this.afs.collection<Post>(
       'posts',
-      ref => ref.where('channel', '==', channelId).orderBy('created', 'desc')
+      ref => {
+        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        query = ref.where('channel', '==', channelId).orderBy(orderBy, 'desc');
+        if (orderBy !== 'created') {
+          query = query.orderBy('created', 'desc');
+        }
+        return query;
+      }
     ).snapshotChanges().pipe(
       map(posts => {
         return posts.map(post => {

@@ -20,7 +20,7 @@ export class PostListComponent implements OnInit {
   newPost: Post;
   posts$: Observable<Post[]>;
   isChannelOwner = false;
-  sort: FormControl;
+  sortBy = 'favoriteCount';
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +30,6 @@ export class PostListComponent implements OnInit {
 
 ngOnInit() {
   this.user = this.route.snapshot.data.user;
-  this.sort = new FormControl('favoriteCount');
 
   const channel$ = this.route.data.pipe(
     map(data => data['channel']),
@@ -38,18 +37,19 @@ ngOnInit() {
   ).subscribe(channel => { // TODO refactoring
     this.channel = channel;
     this.postService.getNewPost(this.channel.id).subscribe(post => this.newPost = post);
-    this.posts$ = this.postService.getPostByChannelId(this.channel.id, this.sort.value);
+    this.posts$ = this.postService.getPostByChannelId(this.channel.id, this.sortBy);
     this.isChannelOwner = this.channel.userRef.uid === this.user.uid;
-  });
-
-  this.sort.valueChanges.subscribe(sort => {
-    this.posts$ = this.postService.getPostByChannelId(this.channel.id, sort);
   });
  }
 
   share() {
     this.clipboardService.copyFromContent(`https://askers.io/channels/${this.channel.code}`);
     alert('The URL is Copied to clipboard');
+  }
+
+  onSortBy(sortBy) {
+    this.sortBy = sortBy;
+    this.posts$ = this.postService.getPostByChannelId(this.channel.id, this.sortBy);
   }
 
   onSubmitPost() {

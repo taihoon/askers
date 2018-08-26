@@ -33,28 +33,22 @@
       </div>
       <div class="row justify-content-end mt-4">
         <div class="col-auto">
-            <form class="form-inline">
-              <label for="sort" class="mb-0">Sort By:</label>
-              <select id="sort" class="form-control ml-1" [formControl]="sort">
-                <option value="favoriteCount">favorite</option>
-                <option value="created">created</option>
-              </select>
-          </form>
-          <!-- <div class="btn-group btn-group-sm" role="group" aria-label="sort">
-            <button type="button" class="btn btn btn-outline-secondary">newest</button>
-            <button type="button" class="btn btn btn-outline-secondary">Middle</button>
-          </div> -->
-        </div>
-        <!-- <form class="col-md-auto">
-          <div class="input-group input-group-round">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fas fa-filter" title="filter"><span class="sr-only">filter</span></i>
-              </span>
-            </div>
-            <input type="search" class="form-control filter-list-input" placeholder="Filter tasks">
+          <label for="sort" class="mb-0">Sort By:</label>
+          <div class="btn-group btn-group-sm ml-2" role="group" aria-label="Basic example">
+            <button type="button"
+              (click)="onSortBy('favoriteCount')"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortBy === 'favoriteCount'
+              }">favorite</button>
+            <button type="button"
+              (click)="onSortBy('created')"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortBy === 'created'
+              }">created</button>
           </div>
-        </form> -->
+        </div>
       </div>
       <div class="card-list mt-2">
         <div class="card-list-body">

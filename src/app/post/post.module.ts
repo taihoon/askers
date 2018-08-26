@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
 import { SharedModule } from '../shared/shared.module';
-import { PostResolver } from './post.resolver';
+import { NewPostResolver, PostResolver } from './post.resolver';
 import { PostRoutingModule } from './post-routing.module';
 import { PostService } from './post.service';
 import { PostListComponent } from './post-list/post-list.component';
@@ -26,6 +26,7 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
   ],
   providers: [
     PostResolver,
+    NewPostResolver,
     PostService
   ]
 })

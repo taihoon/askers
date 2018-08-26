@@ -28,19 +28,14 @@ export class PostListComponent implements OnInit {
     private clipboardService: ClipboardService
   ) { }
 
-ngOnInit() {
-  this.user = this.route.snapshot.data.user;
-
-  const channel$ = this.route.data.pipe(
-    map(data => data['channel']),
-    filter(channel => !this.channel || channel.id !== this.channel.id)
-  ).subscribe(channel => { // TODO refactoring
-    this.channel = channel;
-    this.postService.getNewPost(this.channel.id).subscribe(post => this.newPost = post);
-    this.posts$ = this.postService.getPostByChannelId(this.channel.id, this.sortBy);
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    this.channel = this.route.snapshot.data.channel;
+    this.newPost = this.route.snapshot.data.newPost;
     this.isChannelOwner = this.channel.userRef.uid === this.user.uid;
-  });
- }
+
+    this.posts$ = this.postService.getPostByChannelId(this.channel.id, this.sortBy);
+  }
 
   share() {
     this.clipboardService.copyFromContent(`https://askers.io/channels/${this.channel.code}`);

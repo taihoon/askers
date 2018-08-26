@@ -1,7 +1,9 @@
 <div class="progress">
   <div [ngClass]="{
-    'progress-bar bg-info': true,
-    'bg-danger': isFavorited}"></div>
+    'progress-bar': true,
+    'bg-secondary': !isFavorited && !post.notice,
+    'bg-success': isFavorited && !post.notice,
+    'bg-danger': post.notice}"></div>
 </div>
 <div class="card-body">
   <ng-container *ngIf="!editable then contents else form"></ng-container>
@@ -36,11 +38,12 @@
       <div class="d-flex align-items-center">
         <!-- <i class="material-icons">playlist_add_check</i> -->
       </div>
-      <div *ngIf="isCreated" class="dropdown card-options">
+      <div *ngIf="isCreated || isChannelOwner" class="dropdown card-options">
         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-ellipsis-v" title="more"><span class="sr-only">more</span></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(27px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+            <button class="btn btn-link dropdown-item " (click)="onToggleNotice()">{{ !post.notice ? 'Notice' : 'Unnotice'}}</button>
           <button class="btn btn-link dropdown-item " (click)="onEditPost()">Edit</button>
           <button class="btn btn-link dropdown-item text-danger" (click)="onDeletePost()">Delete</button>
         </div>

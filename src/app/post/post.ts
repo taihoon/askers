@@ -5,6 +5,7 @@ export interface Post {
   id?: string;
   user: UserInfo;
   channel: string;
+  notice: boolean;
   contents: string;
   images: string[];
   favoriteCount: number;

@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { PostService } from '../post.service';
 import { UserInfo } from '../../auth/user';
 import { Post } from '../post';
+import { Channel } from '../../channel/channel';
 
 @Component({
   selector: 'app-post-detail',
@@ -15,6 +16,7 @@ export class PostDetailComponent implements OnInit {
   user: UserInfo;
   editable = false;
   isCreated = false;
+  isChannelOwner = false;
   isFavorited = false;
   favorites: Array<any>;
   moreFavoritedCount = 0;
@@ -29,9 +31,10 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit() {
     const favoriteCount = this.post.favorites.length;
-
     this.user = this.route.snapshot.data.user;
+    const channel = this.route.snapshot.data.channel as Channel;
     this.isCreated = this.user.uid === this.post.user.uid;
+    this.isChannelOwner = this.user.uid === channel.userRef.uid;
 
     if (favoriteCount > this.MAX_FAVORITE_DISPLAY_COUNT) {
       this.favorites = this.post.favorites.slice(0, this.MAX_FAVORITE_DISPLAY_COUNT);
@@ -56,6 +59,10 @@ export class PostDetailComponent implements OnInit {
 
     // TODO convert to observable
     this.postService.toggleFavorite(post.id, favorites);
+  }
+
+  onToggleNotice() {
+    this.postService.updateNotice(this.post.id, !this.post.notice);
   }
 
   onEditPost() {

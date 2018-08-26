@@ -43,7 +43,7 @@ export class PostService {
       'posts',
       ref => {
         let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        query = ref.where('channel', '==', channelId).orderBy(orderBy, 'desc');
+        query = ref.where('channel', '==', channelId).orderBy('notice', 'desc').orderBy(orderBy, 'desc');
         if (orderBy !== 'created') {
           query = query.orderBy('created', 'desc');
         }
@@ -74,6 +74,7 @@ export class PostService {
         return of({
           user: user,
           channel: channelId,
+          notice: false,
           contents: '',
           images: [],
           favoriteCount: 0,
@@ -82,6 +83,10 @@ export class PostService {
         } as Post);
       })
     );
+  }
+
+  updateNotice(postId: string, notice) {
+    return this.collection.doc(postId).update({ notice });
   }
 
   toggleFavorite(postId, favorites) {

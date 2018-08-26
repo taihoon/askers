@@ -38,7 +38,7 @@ export class PostListComponent implements OnInit {
   }
 
   share() {
-    this.clipboardService.copyFromContent(`https://askers.io/channels/${this.channel.code}`);
+    this.clipboardService.copyFromContent(`https://askers.io/channels/${this.channel.code}/posts`);
     alert('The URL is Copied to clipboard');
   }
 

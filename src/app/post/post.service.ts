@@ -61,8 +61,8 @@ export class PostService {
     );
   }
 
-  deletePost(post: Post) {
-    return this.collection.doc(post.id).delete();
+  deletePost(postId) {
+    return this.collection.doc(postId).delete();
   }
 
   getNewPost(channelId: string): Observable<Post> {
@@ -73,7 +73,7 @@ export class PostService {
       switchMap(user => {
         return of({
           user: user,
-          channel: channelId,
+          channelId: channelId,
           notice: false,
           contents: '',
           images: [],

@@ -4,7 +4,7 @@ import { UserInfo } from '../auth/user';
 export interface Post {
   id?: string;
   user: UserInfo;
-  channel: string;
+  channelId: string;
   notice: boolean;
   contents: string;
   images: string[];

@@ -27,7 +27,7 @@
           </i>
         </button>
         <ul class="avatars d-inline-block">
-          <li *ngFor="let favoritedUser of favorites">
+          <li *ngFor="let favoritedUser of displayFavorites">
             <a href="#" data-toggle="tooltip" [title]="favoritedUser.displayName">
               <img [alt]="favoritedUser.displayName" class="avatar" [src]="favoritedUser.photoURL">
             </a>
@@ -38,7 +38,7 @@
       <div class="d-flex align-items-center">
         <!-- <i class="material-icons">playlist_add_check</i> -->
       </div>
-      <div *ngIf="isCreated || isChannelOwner" class="dropdown card-options">
+      <div *ngIf="isPostOwner || isChannelOwner" class="dropdown card-options">
         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-ellipsis-v" title="more"><span class="sr-only">more</span></i>
         </button>

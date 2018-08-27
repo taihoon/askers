@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
 import { PostService } from '../post.service';
 import { UserInfo } from '../../auth/user';
 import { Post } from '../post';
@@ -12,38 +11,47 @@ import { Channel } from '../../channel/channel';
   styleUrls: ['./post-detail.component.css']
 })
 export class PostDetailComponent implements OnInit {
+  @Input() user: UserInfo;
+  @Input() channel: Channel;
   @Input() post: Post;
-  user: UserInfo;
+
+  private MAX_DISPLAYED_FAVORITE_COUNT = 10;
   editable = false;
-  isCreated = false;
-  isChannelOwner = false;
-  isFavorited = false;
-  favorites: Array<any>;
-  moreFavoritedCount = 0;
 
-  private MAX_FAVORITE_DISPLAY_COUNT = 10;
+  constructor(private postService: PostService) { }
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private postService: PostService
-  ) { }
+  ngOnInit() { }
 
-  ngOnInit() {
-    const favoriteCount = this.post.favorites.length;
-    this.user = this.route.snapshot.data.user;
-    const channel = this.route.snapshot.data.channel as Channel;
-    this.isCreated = this.user.uid === this.post.user.uid;
-    this.isChannelOwner = this.user.uid === channel.userRef.uid;
+  get isChannelOwner() {
+    return this.user.uid === this.channel.userRef.uid;
+  }
 
-    if (favoriteCount > this.MAX_FAVORITE_DISPLAY_COUNT) {
-      this.favorites = this.post.favorites.slice(0, this.MAX_FAVORITE_DISPLAY_COUNT);
-      this.moreFavoritedCount = favoriteCount - this.MAX_FAVORITE_DISPLAY_COUNT;
+  get isPostOwner() {
+    return this.user.uid === this.post.user.uid;
+  }
+
+  get moreFavoritedCount() {
+    if (this.post.favoriteCount > this.MAX_DISPLAYED_FAVORITE_COUNT) {
+      return this.post.favoriteCount - this.MAX_DISPLAYED_FAVORITE_COUNT;
     } else {
-      this.favorites = this.post.favorites.slice(0);
+      return 0;
     }
+  }
 
-    this.isFavorited = this.post.favorites.some(user => user.uid === this.user.uid);
+  get displayFavorites() {
+    if (this.post.favoriteCount > this.MAX_DISPLAYED_FAVORITE_COUNT) {
+      return this.post.favorites.slice(0, this.MAX_DISPLAYED_FAVORITE_COUNT);
+    } else {
+      return this.post.favorites.slice(0);
+    }
+  }
+
+  get isFavorited() {
+    return this.post.favorites.some(user => user.uid === this.user.uid);
+  }
+
+  onToggleNotice() {
+    this.postService.updateNotice(this.post.id, !this.post.notice);
   }
 
   onToggleFavoritePost(post) {
@@ -58,11 +66,7 @@ export class PostDetailComponent implements OnInit {
     }
 
     // TODO convert to observable
-    this.postService.toggleFavorite(post.id, favorites);
-  }
-
-  onToggleNotice() {
-    this.postService.updateNotice(this.post.id, !this.post.notice);
+    this.postService.toggleFavorite(this.post.id, favorites);
   }
 
   onEditPost() {
@@ -70,7 +74,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   onDeletePost() {
-    this.postService.deletePost(this.post);
+    this.postService.deletePost(this.post.id);
   }
 
   onCancelSubmitPost() {

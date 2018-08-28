@@ -1,0 +1,87 @@
+<div class="card-body position-relative">
+  <ng-container *ngIf="!editable then postTmpl else formTmpl"></ng-container>
+  <ng-template #postTmpl>
+    <div class="card-title">
+      <p class="P-filter-by-text showdown"
+        [innerHTML]="post.contents | showdown">
+      </p>
+      <span
+        class="text-small"
+        [title]="post.created | fsTimestamp | date:'yyyy.MM.dd HH:mm:ss'">
+        <i class="far fa-clock" title="created">
+          <span class="sr-only">created</span>
+        </i>
+        {{ post.created | fsTimestamp | relativeDate }}
+        by
+        {{ post.user.displayName }}
+      </span>
+    </div>
+    <div class="card-meta">
+      <div>
+        <button
+          (click)="onToggleFavoritePost(post)"
+          class="btn btn-link m-0 p-0">
+          <i [ngClass]="{
+            'fas fa-heart': true,
+            'text-muted': !isFavorited,
+            'text-flamingo': isFavorited}" title="favorite">
+            <span class="sr-only">favorite</span>
+          </i>
+        </button>
+        <ul class="avatars d-inline-block">
+          <li *ngFor="let favoritedUser of displayFavorites">
+            <a href="#"
+              data-toggle="tooltip"
+              [title]="favoritedUser.displayName">
+              <img
+                class="avatar"
+                [src]="favoritedUser.photoURL"
+                [alt]="favoritedUser.displayName">
+            </a>
+          </li>
+        </ul>
+        <small
+          *ngIf="moreFavoritedCount > 0"
+          class="text-muted align-bottom">
+          ...more {{ moreFavoritedCount }}
+        </small>
+      </div>
+      <div
+        *ngIf="isPostOwner || isChannelOwner"
+        class="dropdown card-options">
+        <button
+          class="btn-options"
+          type="button"
+          data-toggle="dropdown">
+          <i class="fas fa-ellipsis-v" title="more">
+            <span class="sr-only">more</span>
+          </i>
+        </button>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          style="position: absolute;
+            transform: translate3d(27px, 24px, 0px);
+            top: 0px; left: 0px;
+            will-change: transform;">
+          <button
+            class="btn btn-link dropdown-item "
+            (click)="onEditPost()">
+            Edit
+          </button>
+          <button
+            class="btn btn-link dropdown-item text-danger"
+            (click)="onDeletePost()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #formTmpl>
+    <app-post-form
+      type="edit"
+      [post]="post"
+      (cancel)="onCancelSubmitPost()">
+    </app-post-form>
+  </ng-template>
+</div>

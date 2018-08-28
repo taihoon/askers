@@ -1,27 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { PostService } from '../post.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserInfo } from '../../auth/user';
-import { Post } from '../post';
 import { Channel } from '../../channel/channel';
+import { Post } from '../../post/post';
+import { PostService } from '../../post/post.service';
 
 @Component({
-  selector: 'app-post-detail',
-  templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.css']
+  selector: 'app-reply-detail',
+  templateUrl: './reply-detail.component.html',
+  styleUrls: ['./reply-detail.component.css']
 })
-export class PostDetailComponent implements OnInit {
-  @Input()
-  user: UserInfo;
-  @Input()
-  channel: Channel;
-  @Input()
-  post: Post;
-  @Input()
-  replies: Post[];
+export class ReplyDetailComponent implements OnInit {
+  @Input() user: UserInfo;
+  @Input() channel: Channel;
+  @Input() parent: string;
+  @Input() post: Post;
 
   private MAX_DISPLAYED_FAVORITE_COUNT = 10;
   editable = false;
-  showReplyForm = false;
 
   constructor(private postService: PostService) {}
 
@@ -73,10 +68,6 @@ export class PostDetailComponent implements OnInit {
     this.postService.toggleFavorite(this.post.id, favorites);
   }
 
-  onToggleShowReplyForm() {
-    this.showReplyForm = !this.showReplyForm;
-  }
-
   onEditPost() {
     this.editable = true;
   }
@@ -87,11 +78,5 @@ export class PostDetailComponent implements OnInit {
 
   onCancelSubmitPost() {
     this.editable = false;
-  }
-
-  onSubmitPost(param) {
-    if (param.result === 'success') {
-      this.editable = false;
-    }
   }
 }

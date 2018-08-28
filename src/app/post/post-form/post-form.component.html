@@ -9,7 +9,7 @@
           required
           minlength="2"
           maxlength="2048"
-          [(ngModel)]="post.contents"
+          [(ngModel)]="contents"
           name="contents"
           [ngClass]="{
             'form-control mb-0 editor': true,
@@ -18,7 +18,7 @@
           [style.visibility]="!preview ? 'visible' : 'hidden'"></textarea>
         <div
           *ngIf="preview"
-          [innerHTML]="post.contents | showdown"
+          [innerHTML]="contents | showdown"
           class="form-control preview"></div>
       </div>
     </div>
@@ -51,7 +51,7 @@
             'btn-danger': postForm.valid
           }">SUBMIT</button>
         <button
-          *ngIf="mode === 'update'"
+          *ngIf="type === 'edit'"
           type="button"
           (click)="onCancel()"
           class="btn btn-sm btn-link text-secondary">CANCEL</button>

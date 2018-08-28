@@ -1,64 +1,89 @@
 <div class="navbar bg-white breadcrumb-bar">
-  <nav aria-label="breadcrumb">
+  <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-      <li class="breadcrumb-item">Channel</li>
-      <li class="breadcrumb-item active" aria-current="page">{{ channel.code }}</li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/']">Home</a>
+      </li>
+      <li class="breadcrumb-item">
+        Channel
+      </li>
+      <li class="breadcrumb-item active">
+        {{ channel.code }}
+      </li>
     </ol>
   </nav>
   <div class="dropdown">
-    <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-      <i class="fas fa-cog text-black-50" title="settings"><span class="sr-only">settings</span></i>
+    <button class="btn btn-round" data-toggle="dropdown">
+      <i class="fas fa-cog text-black-50" title="settings">
+        <span class="sr-only">settings</span>
+      </i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
-      <a *ngIf="isChannelOwner"
+      <a
+        *ngIf="isChannelOwner"
         [routerLink]="['/channels', channel.code, 'edit']"
-        class="dropdown-item">Edit Channel</a>
-      <button type="button" class="btn btn-link dropdown-item" (click)="share()">Share Channel</button>
+        class="dropdown-item">
+        Edit Channel
+      </a>
+      <button type="button"
+        class="btn btn-link dropdown-item"
+        (click)="share()">
+        Share Channel
+      </button>
     </div>
   </div>
 </div>
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-lg-11 col-xl-10">
-      <div class="page-header">
+    <div class="col-12">
+      <div class="page-header px-2">
         <h1>@{{ channel.code }}</h1>
         <p class="lead">{{ channel.desc }}</p>
       </div>
-      <div class="form">
+      <div class="px-2">
         <app-post-form
-          mode="save"
-          [post]="newPost"
-          (submitPost)="onSubmitPost()"></app-post-form>
+          type="write"
+          [channel]="channel.id">
+        </app-post-form>
       </div>
-      <div class="row justify-content-end mt-4">
+      <div class="row justify-content-center mt-4 px-2">
         <div class="col-auto">
-          <label for="sort" class="mb-0">Sort By:</label>
-          <div class="btn-group btn-group-sm ml-2" role="group" aria-label="Basic example">
-            <button type="button"
+          <label for="sort" class="mb-0 sr-only">Sort By:</label>
+          <div class="btn-group btn-group-sm ml-2">
+            <button
+              type="button"
               (click)="onSortBy('favoriteCount')"
               [ngClass]="{
                 'btn btn-outline-secondary': true,
-                'active': sortBy === 'favoriteCount'
-              }">favorite</button>
-            <button type="button"
+                'active': sortBy === 'favoriteCount'}">
+              favorite
+            </button>
+            <button
+              type="button"
               (click)="onSortBy('created')"
               [ngClass]="{
                 'btn btn-outline-secondary': true,
-                'active': sortBy === 'created'
-              }">created</button>
+                'active': sortBy === 'created'}">
+              created
+            </button>
           </div>
         </div>
       </div>
       <div class="card-list mt-2">
         <div class="card-list-body">
-          <ng-container *ngIf="posts$ | async as posts">
-            <ng-container *ngIf="posts.length > 0 else nopost">
-              <div *ngFor="let post of posts" class="card card-task">
+          <ng-container
+            *ngIf="postWiteRepliesList$ | async as postWithRepliesList">
+            <ng-container
+              *ngIf="postWithRepliesList.length > 0 else nopost">
+              <div
+                *ngFor="let postWithReplies of postWithRepliesList"
+                class="card card-task">
                 <app-post-detail
                   [user]="user"
                   [channel]="channel"
-                  [post]="post"></app-post-detail>
+                  [post]="postWithReplies.post"
+                  [replies]="postWithReplies.replies">
+                </app-post-detail>
               </div>
             </ng-container>
             <ng-template #nopost>

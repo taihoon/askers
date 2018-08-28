@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Post } from '../post';
 import { PostService } from '../post.service';
 
@@ -7,39 +7,49 @@ import { PostService } from '../post.service';
   templateUrl: './post-form.component.html',
   styleUrls: ['./post-form.component.css']
 })
-export class PostFormComponent {
-  private _post: Post;
+export class PostFormComponent implements OnInit {
+  // private _post: Post; // TODO remove
+  contents = '';
   submitted = false;
   preview = false;
 
   // TODO make it to type
-  @Input() mode: string;
-  @Input() set post(post: Post) {
-    this._post = Object.assign({}, post);
-  }
-  @Output() protected submitPost = new EventEmitter<{ result: string, data?: any }>();
-  @Output() protected cancelSubmitPost = new EventEmitter<null>();
+  @Input() type: string;
+  @Input() channel: string;
+  @Input() parent: null | string = null;
+  @Input() post: null | Post;
+  // @Input() set post(post: Post) {
+  //   this._post = Object.assign({}, post);
+  // }
+  // @Output() protected submitPost = new EventEmitter<{ result: string, data?: any }>();
+  @Output() cancel = new EventEmitter<null>();
 
-  get post() {
-    return this._post;
-  }
+  // get post() {
+  //   return this._post;
+  // }
 
   // TODO make it reactive forms
   constructor(private postService: PostService) { }
+
+  ngOnInit() {
+    if (this.post) {
+      this.contents = this.post.contents;
+    }
+  }
 
   onPreview(preview) {
     this.preview = preview;
   }
 
   onCancel(e) {
-    this.cancelSubmitPost.emit();
+    this.cancel.emit();
   }
 
   onSubmit() {
     // TODO move toparents component
-    if (this.mode === 'save') {
+    if (this.type === 'write') {
       this.savePost();
-    } else if (this.mode === 'update') {
+    } else if (this.type === 'edit') {
       this.updatePost();
     }
     return false;
@@ -47,33 +57,42 @@ export class PostFormComponent {
 
   savePost() {
     if (!this.submitted) {
+      this.submitted = true;
       this.postService
-        .savePost(this.post)
-        .then(_ => this.success())
-        .catch(err => this.error(err));
+        .savePost({
+        channel: this.channel,
+        parent: this.parent,
+        contents: this.contents
+        })
+        .subscribe(
+        _ => this.success(),
+        err => this.error(err)
+      );
     }
   }
 
   updatePost() {
     if (!this.submitted) {
+      this.submitted = true;
+      const updatedPost = {
+        contents: this.contents
+      };
       this.postService
-        .updatePost(this.post)
-        .then(_ => this.success())
-        .catch(err => this.error(err));
+        .updatePost(this.post.id, updatedPost)
+        .subscribe(
+          _ => this.success(),
+          err => this.error(err)
+        );
     }
   }
 
   success() {
     this.preview = false;
     this.submitted = false;
-    this.submitPost.emit({ result: 'success', data: this.post });
-
   }
 
   error(err) {
     alert(err);
     this.submitted = false;
-    this.submitPost.emit({ result: 'error', data: err });
   }
-
 }

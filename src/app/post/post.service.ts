@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { firestore } from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Post } from './post';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Post, NewPost, UpdatedPost, PostWithReplies } from './post';
 import { AuthService } from '../auth/auth.service';
+import { groupBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -12,53 +13,81 @@ import { AuthService } from '../auth/auth.service';
 export class PostService {
   private collection: AngularFirestoreCollection<Post>;
 
-  constructor(
-    private afs: AngularFirestore,
-    private authService: AuthService) {
+  constructor(private afs: AngularFirestore, private authService: AuthService) {
     this.collection = this.afs.collection('posts');
   }
 
-  savePost(post: Post) {
-    return this.collection.add(post);
+  savePost(post: NewPost) {
+    return this.authService.currentUserInfo.pipe(
+      map(userInfo => this.authService.getAttechedUserRef(userInfo)),
+      map(userInfo => ({
+        user: userInfo,
+        channel: post.channel,
+        parent: post.parent,
+        notice: false,
+        contents: post.contents,
+        images: [],
+        favoriteCount: 0,
+        favorites: [],
+        created: firestore.FieldValue.serverTimestamp()
+      })),
+      // tap(_ => console.log("save post", _)),
+      switchMap(newPost => this.collection.add(newPost))
+    );
   }
 
-  updatePost(post: Post) {
-    const id = post.id;
-    delete post.id;
-    return this.collection.doc(id).update(post);
+  updatePost(id: string, updatedPost: UpdatedPost) {
+    return of(this.collection.doc(id).update(updatedPost));
   }
 
   getPostById(postId: string): Observable<Post> {
-    return this.collection.doc(postId).snapshotChanges().pipe(
-      map(snapshot => ({
-        id: snapshot.payload.id,
-        ...snapshot.payload.data()
-      } as Post))
-    );
+    return this.collection
+      .doc(postId)
+      .snapshotChanges()
+      .pipe(
+        map(
+          snapshot =>
+            ({
+              id: snapshot.payload.id,
+              ...snapshot.payload.data()
+            } as Post)
+        )
+      );
   }
 
-  getPostByChannelId(channelId: string, orderBy: string): Observable<Post[]> {
-    // TODO https://github.com/angular/angularfire2/issues/1490
-    return this.afs.collection<Post>(
-      'posts',
-      ref => {
-        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        query = ref.where('channel', '==', channelId).orderBy('notice', 'desc').orderBy(orderBy, 'desc');
+  getPostWithRepliesByChannelId(
+    channelId: string,
+    orderBy: string
+  ): Observable<PostWithReplies[]> {
+    return this.afs
+      .collection<Post>('posts', ref => {
+        let query = ref
+          .where('channel', '==', channelId)
+          .orderBy('notice', 'desc');
         if (orderBy !== 'created') {
-          query = query.orderBy('created', 'desc');
+          query = query.orderBy(orderBy, 'desc');
         }
-        return query;
-      }
-    ).snapshotChanges().pipe(
-      map(posts => {
-        return posts.map(post => {
-          return {
-            id: post.payload.doc.id,
-            ...post.payload.doc.data()
-          };
-        });
+        return query
+          .orderBy('created', 'desc');
       })
-    );
+      .snapshotChanges()
+      .pipe(
+        map(origins => (
+          origins.map(origin => ({
+            id: origin.payload.doc.id,
+            ...origin.payload.doc.data()
+          }))
+        )),
+        map(origins => {
+          const posts = origins.filter(post => !post.parent);
+          const replies = origins.filter(post => !!post.parent);
+          const groupByParentReplies = groupBy(replies, 'parent');
+          return posts.map(post => ({
+            post: post,
+            replies: groupByParentReplies[post.id]
+          }));
+        })
+      );
   }
 
   deletePost(postId) {
@@ -66,6 +95,7 @@ export class PostService {
   }
 
   getNewPost(channelId: string): Observable<Post> {
+    //TODO remove
     return this.authService.currentUserInfo.pipe(
       map(user => {
         return this.authService.getAttechedUserRef(user);
@@ -73,7 +103,7 @@ export class PostService {
       switchMap(user => {
         return of({
           user: user,
-          channelId: channelId,
+          channel: channelId,
           notice: false,
           contents: '',
           images: [],

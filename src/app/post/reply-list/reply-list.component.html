@@ -1,0 +1,15 @@
+<div class="card-body">
+  <app-post-form
+    *ngIf="showForm"
+    type="write"
+    [channel]="channel.id"
+    [parent]="parent">
+  </app-post-form>
+</div>
+<app-reply-detail
+   *ngFor="let reply of replies"
+   [user]="user"
+   [channel]="channel"
+   [parent]="parent"
+   [post]="reply">
+</app-reply-detail>

@@ -6,55 +6,109 @@
     'bg-danger': post.notice}"></div>
 </div>
 <div class="card-body">
-  <ng-container *ngIf="!editable then contents else form"></ng-container>
-  <ng-template #contents>
+  <ng-container *ngIf="!editable then postTmpl else formTmpl"></ng-container>
+  <ng-template #formTmpl>
+    <app-post-form
+      type="edit"
+      [post]="post"
+      (cancel)="onCancelSubmitPost()">
+    </app-post-form>
+  </ng-template>
+  <ng-template #postTmpl>
     <div class="card-title">
-      <p data-filter-by="text" class="P-filter-by-text showdown" [innerHTML]="post.contents | showdown"></p>
-      <span class="text-small" [title]="post.created | fsTimestamp | date:'yyyy.MM.dd HH:mm:ss'">
-          <i class="far fa-clock" title="created"><span class="sr-only">created</span></i>
+      <p
+        data-filter-by="text"
+        class="P-filter-by-text showdown"
+        [innerHTML]="post.contents | showdown">
+      </p>
+      <span
+        class="text-small"
+        [title]="post.created | fsTimestamp | date:'yyyy.MM.dd HH:mm:ss'">
+          <i class="far fa-clock" title="created">
+            <span class="sr-only">created</span>
+          </i>
           {{ post.created | fsTimestamp | relativeDate }}
           by {{ post.user.displayName }}
       </span>
     </div>
     <div class="card-meta">
       <div>
-        <button (click)="onToggleFavoritePost(post)" class="btn btn-link m-0 p-0">
+        <button
+        (click)="onToggleFavoritePost(post)"
+        class="btn btn-link m-0 p-0">
           <i [ngClass]="{
-              'fas fa-heart fa-2x': true,
-              'text-muted': !isFavorited,
-              'text-flamingo': isFavorited}" title="favorite">
+            'fas fa-heart fa-2x': true,
+            'text-muted': !isFavorited,
+            'text-flamingo': isFavorited}" title="favorite">
             <span class="sr-only">favorite</span>
           </i>
         </button>
         <ul class="avatars d-inline-block">
           <li *ngFor="let favoritedUser of displayFavorites">
-            <a href="#" data-toggle="tooltip" [title]="favoritedUser.displayName">
-              <img [alt]="favoritedUser.displayName" class="avatar" [src]="favoritedUser.photoURL">
+            <a
+              href="#"
+              data-toggle="tooltip"
+              [title]="favoritedUser.displayName">
+              <img
+                [alt]="favoritedUser.displayName"
+                class="avatar"
+                [src]="favoritedUser.photoURL">
             </a>
           </li>
         </ul>
-        <small *ngIf="moreFavoritedCount > 0" class="text-muted align-bottom">...more {{ moreFavoritedCount }}</small>
+        <small
+          *ngIf="moreFavoritedCount > 0"
+          class="text-muted align-bottom">
+          ...more {{ moreFavoritedCount }}
+        </small>
       </div>
       <div class="d-flex align-items-center">
-        <!-- <i class="material-icons">playlist_add_check</i> -->
-      </div>
-      <div *ngIf="isPostOwner || isChannelOwner" class="dropdown card-options">
-        <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-ellipsis-v" title="more"><span class="sr-only">more</span></i>
+        <button
+          (click)="onToggleShowReplyForm()"
+          class="btn btn-link text-muted">
+          <i class="fas fa-reply fa-lg" title="reply">
+            <span class="sr-only">reply</span>
+          </i>
         </button>
-        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(27px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
-            <button class="btn btn-link dropdown-item " (click)="onToggleNotice()">{{ !post.notice ? 'Notice' : 'Unnotice'}}</button>
-          <button class="btn btn-link dropdown-item " (click)="onEditPost()">Edit</button>
-          <button class="btn btn-link dropdown-item text-danger" (click)="onDeletePost()">Delete</button>
+      </div>
+      <div
+        *ngIf="isPostOwner || isChannelOwner"
+        class="dropdown card-options">
+        <button
+          class="btn-options"
+          type="button"
+          data-toggle="dropdown">
+            <i class="fas fa-ellipsis-v" title="more">
+              <span class="sr-only">more</span>
+            </i>
+        </button>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          style="
+            position: absolute;
+            transform: translate3d(27px, 24px, 0px);
+            top: 0px; left: 0px;
+            will-change: transform;">
+          <button
+            class="btn btn-link dropdown-item"
+            (click)="onToggleNotice()">
+              {{ !post.notice ? 'Notice' : 'Unnotice'}}
+          </button>
+          <button
+            class="btn btn-link dropdown-item"
+            (click)="onEditPost()">Edit</button>
+          <button
+            class="btn btn-link dropdown-item text-danger"
+            (click)="onDeletePost()">Delete</button>
         </div>
       </div>
     </div>
   </ng-template>
-  <ng-template #form>
-    <app-post-form
-      mode="update"
-      [post]="post"
-      (submitPost)="onSubmitPost()"
-      (cancelSubmitPost)="onCancelSubmitPost()"></app-post-form>
-  </ng-template>
+  <app-reply-list
+    [user]="user"
+    [channel]="channel"
+    [parent]="post.id"
+    [replies]="replies"
+    [showForm]="showReplyForm">
+  </app-reply-list>
 </div>

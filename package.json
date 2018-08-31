@@ -1,6 +1,6 @@
 {
   "name": "askers",
-  "version": "1.0.0-alpha.4-rc",
+  "version": "1.0.0-alpha.4",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4230",

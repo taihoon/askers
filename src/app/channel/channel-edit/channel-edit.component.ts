@@ -9,7 +9,9 @@ import { Channel } from '../channel';
 })
 export class ChannelEditComponent implements OnInit {
   channel: Channel;
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+    console.log("ChannelEdit");
+  }
 
   ngOnInit() {
     this.channel = this.route.snapshot.data.channel;

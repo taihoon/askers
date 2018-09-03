@@ -12,11 +12,9 @@ import { AuthService } from '../auth/auth.service';
 export class ChannelService {
   private channelCollection: AngularFirestoreCollection<Channel>;
 
-  constructor(
-    private afs: AngularFirestore,
-    private authService: AuthService) {
-      this.channelCollection = this.afs.collection('channels');
-    }
+  constructor(private afs: AngularFirestore, private authService: AuthService) {
+    this.channelCollection = this.afs.collection('channels');
+  }
 
   createChannel(channel: Channel) {
     return this.channelCollection.add(channel);
@@ -47,29 +45,53 @@ export class ChannelService {
   }
 
   isExistChannelByCode(channelCode): Observable<boolean> {
-    return this.afs.collection<Channel>(
-      'channels',
-      ref => ref.where('code', '==', channelCode)
-    ).valueChanges().pipe(
-      first(),
-      map(channels => !!channels.length)
-    );
+    return this.afs
+      .collection<Channel>('channels', ref =>
+        ref.where('code', '==', channelCode)
+      )
+      .valueChanges()
+      .pipe(
+        first(),
+        map(channels => !!channels.length)
+      );
+  }
+
+  getChannelByUser(uid: string): Observable<Channel[]> {
+    return this.afs
+      .collection<Channel>('channels', ref =>
+        ref.where('userRef.uid', '==', uid)
+      )
+      .snapshotChanges()
+      .pipe(
+        map(channels => {
+          return channels
+            .map(channel => {
+              return {
+                id: channel.payload.doc.id,
+                ...channel.payload.doc.data()
+              } as Channel;
+            });
+          })
+      );
   }
 
   getChannelByCode(channelCode): Observable<Channel> {
-    return this.afs.collection<Channel>(
-      'channels',
-      ref => ref.where('code', '==', channelCode)
-    ).snapshotChanges().pipe(
-      first(),
-      map(channels => { // TODO use filter
-        if (channels.length === 1) {
-          return {
-            id: channels[0].payload.doc.id,
-            ...channels[0].payload.doc.data()
-          } as Channel;
-        }
-      })
-    );
+    return this.afs
+      .collection<Channel>('channels', ref =>
+        ref.where('code', '==', channelCode)
+      )
+      .snapshotChanges()
+      .pipe(
+        first(),
+        map(channels => {
+          // TODO use filter
+          if (channels.length === 1) {
+            return {
+              id: channels[0].payload.doc.id,
+              ...channels[0].payload.doc.data()
+            } as Channel;
+          }
+        })
+      );
   }
 }

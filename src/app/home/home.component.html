@@ -40,6 +40,7 @@
     <div class="mt-2">
       <a *ngIf="!user.authenticated" [routerLink]="['/login']" class="btn btn-lg btn-link text-dark font-weight-bold p-0">Login</a>
       <button *ngIf="user.authenticated" (click)="onLogout()" class="btn btn-lg btn-link text-dark font-weight-bold p-0">Logout</button>
+      <a *ngIf="user.authenticated" [routerLink]="['/channels']" class="btn btn-lg btn-link text-dark font-weight-bold p-0 ml-2">My Channels</a>
     </div>
   </div>
 </main>

@@ -10,6 +10,7 @@ import { ChannelFormComponent } from './channel-form/channel-form.component';
 import { ChannelCreateComponent } from './channel-create/channel-create.component';
 import { ChannelDetailComponent } from './channel-detail/channel-detail.component';
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
+import { ChannelListComponent } from './channel-list/channel-list.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ChannelEditComponent } from './channel-edit/channel-edit.component';
     ChannelFormComponent,
     ChannelCreateComponent,
     ChannelDetailComponent,
-    ChannelEditComponent
+    ChannelEditComponent,
+    ChannelListComponent
   ],
   providers: [
     NewChannelResolver,

@@ -72,7 +72,7 @@
       <div class="card-list mt-2">
         <div class="card-list-body">
           <ng-container
-            *ngIf="postWiteRepliesList$ | async as postWithRepliesList">
+            *ngIf="postWithRepliesList$ | async as postWithRepliesList">
             <ng-container
               *ngIf="postWithRepliesList.length > 0 else nopost">
               <div

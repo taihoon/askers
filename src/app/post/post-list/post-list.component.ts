@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 import { ClipboardService } from 'ngx-clipboard';
 import { UserInfo } from '../../auth/user';
 import { Channel } from '../../channel/channel';
-import { Post, PostWithReplies } from '../post';
+import { PostWithReplies } from '../post';
 import { PostService } from '../post.service';
+import { PostSubscribeService } from '../post-subscribe.service';
 
 /**
  * Component Struct
@@ -27,25 +28,42 @@ import { PostService } from '../post.service';
 export class PostListComponent implements OnInit {
   user: UserInfo;
   channel: Channel;
-  newPost: Post;
-  postWiteRepliesList$: Observable<PostWithReplies[]>;
+  postWithRepliesList$: Observable<PostWithReplies[]>;
   isChannelOwner = false;
   sortBy = 'favoriteCount';
+
+  private pauseSubscribe = false;
+  private sortBy$ = new BehaviorSubject(this.sortBy);
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
+    private postSubscribeService: PostSubscribeService,
     private clipboardService: ClipboardService
   ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.channel = this.route.snapshot.data.channel;
-    this.newPost = this.route.snapshot.data.newPost;
     this.isChannelOwner = this.channel.userRef.uid === this.user.uid;
 
-    this.postWiteRepliesList$ = this.postService
-      .getPostWithRepliesByChannelId(this.channel.id, this.sortBy);
+    this.postSubscribeService.pause$
+      .subscribe(pause => this.pauseSubscribe = pause);
+
+    this.postSubscribeService.resume();
+
+    this.postWithRepliesList$ =
+      this.sortBy$
+        .pipe(
+          switchMap(sortBy => (
+            this.postService
+              .getPostWithRepliesByChannelId(
+                this.channel.id,
+                sortBy
+              )
+          )),
+          filter(_ => !this.pauseSubscribe)
+        );
   }
 
   share() {
@@ -56,14 +74,12 @@ export class PostListComponent implements OnInit {
   }
 
   onSortBy(sortBy) {
+    this.postSubscribeService.resume();
+    this.sortBy$.next(sortBy);
     this.sortBy = sortBy;
-    this.postWiteRepliesList$ = this.postService
-      .getPostWithRepliesByChannelId(this.channel.id, this.sortBy);
   }
 
   onSubmitPost() {
-    this.postService
-      .getNewPost(this.channel.id)
-      .subscribe(post => (this.newPost = post));
+    this.ngOnInit
   }
 }

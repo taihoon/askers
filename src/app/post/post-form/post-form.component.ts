@@ -60,14 +60,14 @@ export class PostFormComponent implements OnInit {
       this.submitted = true;
       this.postService
         .savePost({
-        channel: this.channel,
-        parent: this.parent,
-        contents: this.contents
+          channel: this.channel,
+          parent: this.parent,
+          contents: this.contents
         })
         .subscribe(
-        _ => this.success(),
-        err => this.error(err)
-      );
+          _ => this.success(),
+          err => this.error(err)
+        );
     }
   }
 
@@ -87,6 +87,7 @@ export class PostFormComponent implements OnInit {
   }
 
   success() {
+    this.contents = '';
     this.preview = false;
     this.submitted = false;
   }

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { PostService } from '../post.service';
 import { UserInfo } from '../../auth/user';
 import { Post } from '../post';
 import { Channel } from '../../channel/channel';
+import { PostSubscribeService } from '../post-subscribe.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -10,20 +11,19 @@ import { Channel } from '../../channel/channel';
   styleUrls: ['./post-detail.component.css']
 })
 export class PostDetailComponent implements OnInit {
-  @Input()
-  user: UserInfo;
-  @Input()
-  channel: Channel;
-  @Input()
-  post: Post;
-  @Input()
-  replies: Post[];
+  @Input() user: UserInfo;
+  @Input() channel: Channel;
+  @Input() post: Post;
+  @Input() replies: Post[];
 
   private MAX_DISPLAYED_FAVORITE_COUNT = 10;
   editable = false;
   showReplyForm = false;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private postSubscribeService: PostSubscribeService
+  ) {}
 
   ngOnInit() {}
 
@@ -79,6 +79,8 @@ export class PostDetailComponent implements OnInit {
 
   onEditPost() {
     this.editable = true;
+    this.postSubscribeService.pause();
+
   }
 
   onDeletePost() {
@@ -87,6 +89,7 @@ export class PostDetailComponent implements OnInit {
 
   onCancelSubmitPost() {
     this.editable = false;
+    this.postSubscribeService.resume();
   }
 
   onSubmitPost(param) {

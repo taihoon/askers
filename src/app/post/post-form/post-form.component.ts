@@ -58,6 +58,7 @@ export class PostFormComponent implements OnInit {
   savePost() {
     if (!this.submitted) {
       this.submitted = true;
+      this.contents = '';
       this.postService
         .savePost({
           channel: this.channel,
@@ -74,6 +75,7 @@ export class PostFormComponent implements OnInit {
   updatePost() {
     if (!this.submitted) {
       this.submitted = true;
+      this.contents = '';
       const updatedPost = {
         contents: this.contents
       };

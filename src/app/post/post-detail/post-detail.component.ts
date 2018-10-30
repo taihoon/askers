@@ -75,12 +75,17 @@ export class PostDetailComponent implements OnInit {
 
   onToggleShowReplyForm() {
     this.showReplyForm = !this.showReplyForm;
+
+    if (this.showReplyForm) {
+      this.postSubscribeService.pause();
+    } else {
+      this.postSubscribeService.resume();
+    }
   }
 
   onEditPost() {
     this.editable = true;
     this.postSubscribeService.pause();
-
   }
 
   onDeletePost() {

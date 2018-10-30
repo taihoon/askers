@@ -58,12 +58,15 @@ export class PostFormComponent implements OnInit {
   savePost() {
     if (!this.submitted) {
       this.submitted = true;
+
+      const contents = this.contents;
       this.contents = '';
+
       this.postService
         .savePost({
           channel: this.channel,
           parent: this.parent,
-          contents: this.contents
+          contents: contents
         })
         .subscribe(
           _ => this.success(),
@@ -75,9 +78,12 @@ export class PostFormComponent implements OnInit {
   updatePost() {
     if (!this.submitted) {
       this.submitted = true;
+
+      const contents = this.contents;
       this.contents = '';
+
       const updatedPost = {
-        contents: this.contents
+        contents: contents
       };
       this.postService
         .updatePost(this.post.id, updatedPost)

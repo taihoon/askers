@@ -11,3 +11,10 @@ export interface Channel {
   end: firestore.Timestamp;
   created: firestore.Timestamp | firestore.FieldValue;
 }
+
+export interface UpdatedChannel {
+  title: string;
+  desc: string;
+  start: firestore.Timestamp;
+  end: firestore.Timestamp;
+}

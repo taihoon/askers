@@ -3,6 +3,7 @@ import { UserInfo } from '../../auth/user';
 import { Channel } from '../../channel/channel';
 import { Post } from '../../post/post';
 import { PostService } from '../../post/post.service';
+import { PostSubscribeService } from '../post-subscribe.service';
 
 @Component({
   selector: 'app-reply-detail',
@@ -18,7 +19,9 @@ export class ReplyDetailComponent implements OnInit {
   private MAX_DISPLAYED_FAVORITE_COUNT = 10;
   editable = false;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private postSubscribeService: PostSubscribeService) {}
 
   ngOnInit() {}
 
@@ -70,6 +73,7 @@ export class ReplyDetailComponent implements OnInit {
 
   onEditPost() {
     this.editable = true;
+    this.postSubscribeService.pause();
   }
 
   onDeletePost() {
@@ -78,5 +82,6 @@ export class ReplyDetailComponent implements OnInit {
 
   onCancelSubmitPost() {
     this.editable = false;
+    this.postSubscribeService.resume();
   }
 }

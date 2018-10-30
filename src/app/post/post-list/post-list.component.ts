@@ -30,7 +30,7 @@ export class PostListComponent implements OnInit {
   channel: Channel;
   postWithRepliesList$: Observable<PostWithReplies[]>;
   isChannelOwner = false;
-  sortBy = 'favoriteCount';
+  sortBy = 'created';
 
   private pauseSubscribe = false;
   private sortBy$ = new BehaviorSubject(this.sortBy);
@@ -77,9 +77,5 @@ export class PostListComponent implements OnInit {
     this.postSubscribeService.resume();
     this.sortBy$.next(sortBy);
     this.sortBy = sortBy;
-  }
-
-  onSubmitPost() {
-    this.ngOnInit
   }
 }

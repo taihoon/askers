@@ -3,7 +3,7 @@ import { firestore } from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { Channel } from './channel';
+import { Channel, UpdatedChannel } from './channel';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
@@ -93,5 +93,9 @@ export class ChannelService {
           }
         })
       );
+  }
+
+  updateChannel(id: string, updatedChannel: UpdatedChannel) {
+    return this.channelCollection.doc(id).update(updatedChannel);
   }
 }

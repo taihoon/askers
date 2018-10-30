@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { first, switchMapTo } from 'rxjs/operators';
 import { UserInfo } from '../auth/user';
 import { AuthService } from '../auth/auth.service';
-import { ChannelService } from '../channel/channel.service';
 
 @Component({
   selector: 'app-home',
@@ -12,18 +11,20 @@ import { ChannelService } from '../channel/channel.service';
 })
 export class HomeComponent implements OnInit {
   user: UserInfo;
+  bg: string;
   channelCode: string;
   submitted = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private channelService: ChannelService) {
+    private authService: AuthService) {
       const channelCode = this.route.snapshot.queryParamMap.get('channelCode');
       if (channelCode) {
         this.channelCode = channelCode;
       }
+
+      this.bg = `../../assets/img/bg${Math.floor((Math.random() * 3))}.jpg`;
     }
 
   ngOnInit() {

@@ -56,18 +56,20 @@ export class ChannelFormComponent implements OnInit {
       ],
       title: [
         this.channel.title,
-        [Validators.required, Validators.minLength(4), Validators.maxLength(50)]
+        [Validators.required, Validators.minLength(4), Validators.maxLength(100)]
       ],
       desc: [
         this.channel.desc,
         [Validators.required, Validators.minLength(4), Validators.maxLength(2048)]
       ],
       start: [
-        {
-          value:  this.channel.start,
-          disabled: this.mode === 'edit'
-        },
+        this.channel.start,
         [Validators.required]
+        // {
+        //   value:  this.channel.start,
+        //   disabled: this.mode === 'edit'
+        // },
+        // [Validators.required]
       ],
       end: [
         this.channel.end,
@@ -108,7 +110,7 @@ export class ChannelFormComponent implements OnInit {
     const maxDate = new Date(currentDate);
     maxDate.setMonth(currentDate.getMonth() + 3);
 
-    if (startDate < minDate) {
+    if (startDate < minDate && this.mode !== 'edit') {
       startCtl.setErrors({ 'mindate' : true });
       validation = { 'minStartdate': true };
     } else if (startDate >= endDate) {
@@ -142,6 +144,19 @@ export class ChannelFormComponent implements OnInit {
           .createChannel(channel)
           .then(
             _ => this.router.navigate(['/channels', channel.code, 'posts'])
+          );
+      } else {
+        const updatedChannel = {
+          title: channel.title,
+          desc: channel.desc,
+          start: channel.start,
+          end: channel.end
+        };
+
+        this.channelService
+          .updateChannel(channel.id, updatedChannel)
+          .then(
+            _ => this.router.navigate(['/channels'])
           );
       }
     }

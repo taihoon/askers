@@ -22,7 +22,7 @@
       <a
         *ngIf="isChannelOwner"
         [routerLink]="['/channels', channel.code, 'edit']"
-        class="dropdown-item">
+        class="btn btn-link dropdown-item">
         Edit Channel
       </a>
       <button type="button"
@@ -52,19 +52,19 @@
           <div class="btn-group btn-group-sm ml-2">
             <button
               type="button"
-              (click)="onSortBy('favoriteCount')"
-              [ngClass]="{
-                'btn btn-outline-secondary': true,
-                'active': sortBy === 'favoriteCount'}">
-              favorite
-            </button>
-            <button
-              type="button"
               (click)="onSortBy('created')"
               [ngClass]="{
                 'btn btn-outline-secondary': true,
                 'active': sortBy === 'created'}">
               created
+            </button>
+            <button
+              type="button"
+              (click)="onSortBy('favoriteCount')"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortBy === 'favoriteCount'}">
+              favorite
             </button>
           </div>
         </div>

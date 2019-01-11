@@ -19,6 +19,7 @@
     <div class="card-meta">
       <div>
         <button
+           *ngIf="available"
           (click)="onToggleFavoritePost(post)"
           class="btn btn-link m-0 p-0">
           <i [ngClass]="{
@@ -47,7 +48,7 @@
         </small>
       </div>
       <div
-        *ngIf="isPostOwner || isChannelOwner"
+        *ngIf="(isPostOwner && available) || isChannelOwner"
         class="dropdown card-options">
         <button
           class="btn-options"

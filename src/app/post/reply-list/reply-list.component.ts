@@ -15,6 +15,7 @@ export class ReplyListComponent implements OnInit {
   @Input() parent: string;
   @Input() replies: Post[];
   @Input() showForm: boolean;
+  @Input() available: boolean;
 
   constructor() {}
 

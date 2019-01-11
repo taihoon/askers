@@ -1,4 +1,4 @@
-<div class="card-body">
+<div *ngIf="available" class="card-body">
   <app-post-form
     *ngIf="showForm"
     type="write"

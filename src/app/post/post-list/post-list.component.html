@@ -37,11 +37,15 @@
   <div class="row justify-content-center">
     <div class="col-12">
       <div class="page-header px-2">
-        <h1>@{{ channel.code }}</h1>
-        <p class="lead">{{ channel.desc }}</p>
+        <h2>@{{ channel.code }}</h2>
+        <p class="lead">
+          {{ channel.title }}<br/>
+          <small class="text-muted">{{ channel.desc }}</small>
+        </p>
       </div>
       <div class="px-2">
         <app-post-form
+          *ngIf="available"
           type="write"
           [channel]="channel.id">
         </app-post-form>

@@ -34,6 +34,7 @@
     <div class="card-meta">
       <div>
         <button
+          *ngIf="available"
         (click)="onToggleFavoritePost(post)"
         class="btn btn-link m-0 p-0">
           <i [ngClass]="{
@@ -64,6 +65,7 @@
       </div>
       <div class="d-flex align-items-center">
         <button
+          *ngIf="available"
           (click)="onToggleShowReplyForm()"
           class="btn btn-link text-muted">
           <i class="fas fa-reply fa-lg" title="reply">
@@ -72,7 +74,7 @@
         </button>
       </div>
       <div
-        *ngIf="isPostOwner || isChannelOwner"
+        *ngIf="(isPostOwner && available) || isChannelOwner"
         class="dropdown card-options">
         <button
           class="btn-options"
@@ -107,6 +109,7 @@
   <app-reply-list
     [user]="user"
     [channel]="channel"
+    [available]="available"
     [parent]="post.id"
     [replies]="replies"
     [showForm]="showReplyForm">

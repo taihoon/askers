@@ -31,6 +31,7 @@ export class PostListComponent implements OnInit {
   postWithRepliesList$: Observable<PostWithReplies[]>;
   isChannelOwner = false;
   sortBy = 'created';
+  available: boolean;
 
   private pauseSubscribe = false;
   private sortBy$ = new BehaviorSubject(this.sortBy);
@@ -46,6 +47,7 @@ export class PostListComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.channel = this.route.snapshot.data.channel;
     this.isChannelOwner = this.channel.userRef.uid === this.user.uid;
+    this.available = Date.now() < this.channel.end.seconds * 1000;
 
     this.postSubscribeService.pause$
       .subscribe(pause => this.pauseSubscribe = pause);

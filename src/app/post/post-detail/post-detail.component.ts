@@ -16,6 +16,10 @@ export class PostDetailComponent implements OnInit {
   @Input() post: Post;
   @Input() replies: Post[];
 
+  isChannelOwner: boolean;
+  isPostOwner: boolean;
+  available: boolean;
+
   private MAX_DISPLAYED_FAVORITE_COUNT = 10;
   editable = false;
   showReplyForm = false;
@@ -23,16 +27,14 @@ export class PostDetailComponent implements OnInit {
   constructor(
     private postService: PostService,
     private postSubscribeService: PostSubscribeService
-  ) {}
+  ) {
 
-  ngOnInit() {}
-
-  get isChannelOwner() {
-    return this.user.uid === this.channel.userRef.uid;
   }
 
-  get isPostOwner() {
-    return this.user.uid === this.post.user.uid;
+  ngOnInit() {
+    this.isChannelOwner = this.channel.userRef.uid === this.user.uid;
+    this.isPostOwner = this.user.uid === this.post.user.uid;
+    this.available = Date.now() < this.channel.end.seconds * 1000;
   }
 
   get moreFavoritedCount() {

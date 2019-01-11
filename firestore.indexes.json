@@ -1,0 +1,89 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "channel",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "parent",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "created",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "channel",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "parent",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "notice",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "favoriteCount",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "created",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "channel",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "notice",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "favoriteCount",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "created",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "channel",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "notice",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "created",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

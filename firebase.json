@@ -4,8 +4,7 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**",
-      "**/assets/_img/**"
+      "**/node_modules/**"
     ],
     "rewrites": [
       {
@@ -13,5 +12,9 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

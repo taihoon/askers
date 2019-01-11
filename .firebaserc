@@ -1,6 +1,7 @@
 {
   "projects": {
     "real": "asker-40e56",
-    "asker": "asker-40e56"
+    "asker": "asker-40e56",
+    "default": "asker-40e56"
   }
 }

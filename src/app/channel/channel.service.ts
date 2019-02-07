@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -36,9 +37,9 @@ export class ChannelService {
           code: channelCode ? channelCode : '',
           title: '',
           desc: '',
-          start: firestore.Timestamp.fromDate(start),
-          end: firestore.Timestamp.fromDate(end),
-          created: firestore.FieldValue.serverTimestamp()
+          start: firebase.firestore.Timestamp.fromDate(start),
+          end: firebase.firestore.Timestamp.fromDate(end),
+          created: firebase.firestore.FieldValue.serverTimestamp()
         } as Channel);
       })
     );

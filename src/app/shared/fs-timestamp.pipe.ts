@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
 @Pipe({
   name: 'fsTimestamp'
 })
 export class FsTimestampPipe implements PipeTransform {
-  transform(value: firestore.Timestamp, args?: any): Date {
+  transform(value: firebase.firestore.Timestamp, args?: any): Date {
     if (value) {
       return value.toDate();
     } else {

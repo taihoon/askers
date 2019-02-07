@@ -1,4 +1,5 @@
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export interface User {
   uid?: string;
@@ -12,5 +13,5 @@ export interface UserInfo {
   authenticated: boolean;
   displayName: string;
   photoURL: string;
-  ref?: firestore.DocumentReference;
+  ref?: firebase.firestore.DocumentReference;
 }

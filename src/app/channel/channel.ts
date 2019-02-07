@@ -1,4 +1,5 @@
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import { UserInfo } from '../auth/user';
 
 export interface Channel {
@@ -7,14 +8,14 @@ export interface Channel {
   code: string;
   title: string;
   desc: string;
-  start: firestore.Timestamp;
-  end: firestore.Timestamp;
-  created: firestore.Timestamp | firestore.FieldValue;
+  start: firebase.firestore.Timestamp;
+  end: firebase.firestore.Timestamp;
+  created: firebase.firestore.Timestamp | firebase.firestore.FieldValue;
 }
 
 export interface UpdatedChannel {
   title: string;
   desc: string;
-  start: firestore.Timestamp;
-  end: firestore.Timestamp;
+  start: firebase.firestore.Timestamp;
+  end: firebase.firestore.Timestamp;
 }

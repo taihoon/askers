@@ -1,7 +1,8 @@
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, Validators, ValidatorFn} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Channel } from '../channel';
 import { ChannelService } from '../channel.service';
@@ -83,7 +84,7 @@ export class ChannelFormComponent implements OnInit {
 
     [this.start, this.end].forEach(ctl => {
       ctl.valueChanges.pipe(
-        map(date => firestore.Timestamp.fromDate(new Date(date)))
+        map(date => firebase.firestore.Timestamp.fromDate(new Date(date)))
       ).subscribe(date => ctl.setValue(date, { emitEvent: false }));
     });
   }

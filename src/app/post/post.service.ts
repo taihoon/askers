@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -29,7 +30,7 @@ export class PostService {
         images: [],
         favoriteCount: 0,
         favorites: [],
-        created: firestore.FieldValue.serverTimestamp()
+        created: firebase.firestore.FieldValue.serverTimestamp()
       })),
       // tap(_ => console.log("save post", _)),
       switchMap(newPost => this.collection.add(newPost))
@@ -109,7 +110,7 @@ export class PostService {
           images: [],
           favoriteCount: 0,
           favorites: [],
-          created: firestore.FieldValue.serverTimestamp()
+          created: firebase.firestore.FieldValue.serverTimestamp()
         } as Post);
       })
     );

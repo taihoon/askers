@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { auth } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { User, UserInfo } from './user';
 import { Observable, from, of } from 'rxjs';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -99,13 +100,13 @@ export class AuthService {
   loginByProvider(target: string) {
     let provider;
     if (target === 'facebook') {
-      provider = new auth.FacebookAuthProvider();
+      provider = new firebase.auth.FacebookAuthProvider();
     } else if (target === 'github') {
-      provider = new auth.GithubAuthProvider();
+      provider = new firebase.auth.GithubAuthProvider();
     } else if (target === 'twitter') {
-      provider = new auth.TwitterAuthProvider();
+      provider = new firebase.auth.TwitterAuthProvider();
     } else if (target === 'google') {
-      provider = new auth.GoogleAuthProvider();
+      provider = new firebase.auth.GoogleAuthProvider();
     }
 
     return this.afAuth.auth
@@ -118,7 +119,7 @@ export class AuthService {
     return from(this.afAuth.auth.signOut());
   }
 
-  updateCredential(credential: auth.UserCredential) {
+  updateCredential(credential: firebase.auth.UserCredential) {
     this.updateUser(credential.user.uid, {
       email: credential.user.email,
       displayName: credential.user.displayName,

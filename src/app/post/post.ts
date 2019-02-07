@@ -1,4 +1,5 @@
-import { firestore } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import { UserInfo } from '../auth/user';
 
 export interface Post {
@@ -11,7 +12,7 @@ export interface Post {
   images: string[];
   favoriteCount: number;
   favorites: Array<UserInfo>;
-  created: firestore.Timestamp | firestore.FieldValue;
+  created: firebase.firestore.Timestamp | firebase.firestore.FieldValue;
 }
 
 export interface NewPost {

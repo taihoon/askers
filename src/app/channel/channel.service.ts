@@ -56,10 +56,11 @@ export class ChannelService {
       );
   }
 
-  getChannelByUser(uid: string): Observable<Channel[]> {
+  getChannelByUser(uid: string, field: string, order: string): Observable<Channel[]> {
     return this.afs
       .collection<Channel>('channels', ref =>
         ref.where('userRef.uid', '==', uid)
+          .orderBy(field, order as firebase.firestore.OrderByDirection)
       )
       .snapshotChanges()
       .pipe(

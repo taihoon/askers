@@ -32,7 +32,46 @@
         <h1>Channel List</h1>
         <p class="lead">Askers Channel List You Created.</p>
       </div>
-      <div class="content-list-body">
+      <div class="row justify-content-center mt-4 px-2">
+        <div class="col-auto">
+          <label class="mb-0 sr-only">Sort By:</label>
+          <div class="btn-group btn-group-sm ml-2">
+            <button
+              type="button"
+              (click)="onSortBy({ field: 'code', order: 'asc' })"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortByFlag === 'codeasc'}">
+              Code ↓
+            </button>
+            <button
+              type="button"
+              (click)="onSortBy({ field: 'code', order: 'desc' })"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortByFlag === 'codedesc'}">
+              code ↑
+            </button>
+            <button
+              type="button"
+              (click)="onSortBy({ field: 'created', order: 'asc' })"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortByFlag === 'createdasc'}">
+              created ↓
+            </button>
+            <button
+              type="button"
+              (click)="onSortBy({ field: 'created', order: 'desc' })"
+              [ngClass]="{
+                'btn btn-outline-secondary': true,
+                'active': sortByFlag === 'createddesc'}">
+              Created ↑
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="content-list-body mt-2">
         <div class="card-list">
           <div class="card-list-body">
             <div

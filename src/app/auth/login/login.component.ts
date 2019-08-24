@@ -1,64 +1,58 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth, User } from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  loginForm: FormGroup;
-  private submitted = false;
+export class LoginComponent implements OnInit {
+
+  user: User;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private authService: AuthService) {
-      this.loginForm = this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-        remember: ['']
-      });
-    }
+    public afAuth: AngularFireAuth
+  ) { }
 
-  get email(): AbstractControl {
-    return this.loginForm.get('email');
-  }
-
-  get password(): AbstractControl {
-    return this.loginForm.get('password');
-  }
-
-  onLoginByProvider(target) {
-    this.authService.loginByProvider(target)
-      .then(_ => {
-        const redirect = this.route.snapshot.queryParams['redirect'] || '/';
-        this.router.navigateByUrl(redirect);
+  ngOnInit() {
+    this.afAuth.auth
+    .getRedirectResult()
+      .then(r => {
+        this.user = r.user;
+      }, err => {
+        alert(err);
       });
   }
 
-  onSubmit(e) {
+  onClickSignIn(e: MouseEvent, type: string) {
     e.preventDefault();
 
-    if (!this.submitted) {
-      this.submitted = true;
-      this.authService
-        .login(this.email.value, this.password.value)
-        .subscribe(
-          _ => {
-            const redirect = this.route.snapshot.queryParams['redirect'] || '/';
-          this.router.navigateByUrl(redirect);
-          },
-          err => {
-            if (err.code === 'auth/user-not-found') {
-              this.email.setErrors({ userNotFound: true });
-            }
-          }
-        );
+    let provider;
+    switch (type) {
+      case 'facebook':
+        provider = new auth.FacebookAuthProvider();
+        break;
+      case 'google':
+        provider = new auth.GoogleAuthProvider();
+        break;
+      case 'github':
+        provider = new auth.GithubAuthProvider();
+        break;
+      default:
     }
+
+    this.afAuth.auth.signInWithRedirect(provider);
+  }
+
+  onClickSignOut(e: MouseEvent) {
+    e.preventDefault();
+    this.afAuth.auth
+      .signOut()
+      .then(r => {
+        this.user = null;
+      });
   }
 
 }

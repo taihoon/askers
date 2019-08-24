@@ -7,8 +7,8 @@ import { RegistComponent } from './regist/regist.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      {path: 'login', component: LoginComponent, canActivate: [ InverseAuthGuard ]},
-      {path: 'regist', component: RegistComponent, canActivate: [ InverseAuthGuard ]}
+      { path: 'login', component: LoginComponent, canActivate: [ InverseAuthGuard ] },
+      { path: 'regist', component: RegistComponent, canActivate: [ InverseAuthGuard ] }
     ])
   ],
   exports: [RouterModule]

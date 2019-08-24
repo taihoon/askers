@@ -5,8 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserResolver } from './user.resolver';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthService } from './auth.service';
-import { LoginComponent } from './login/login.component';
 import { RegistComponent } from './regist/regist.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [

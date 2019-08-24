@@ -42,7 +42,4 @@ Thumbs.db
 .firebase
 
 # Config Files
-/src/environments/firebase.config.ts
-
-# Temp
-test.js
+/src/environments/

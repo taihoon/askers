@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomeComponent } from '@app/modules/home/home.component';
+import { UserResolver } from './auth/user.resolver';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   imports: [
@@ -10,7 +11,10 @@ import { HomeComponent } from '@app/modules/home/home.component';
        */
       {
         path: '',
-        component: HomeComponent
+        resolve: { user: UserResolver },
+        children: [
+          { path: '', component: HomeComponent, data: { hideHeader: true } }
+        ]
       }
       // { path: '**', component: PageNotFoundComponent } }
     ])

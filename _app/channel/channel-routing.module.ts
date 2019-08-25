@@ -1,20 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
+
+import { ChannelListComponent } from '../../app/modules/channel/channel-list/channel-list.component';
+
+
 import { AuthGuard } from '../auth/auth.guard';
 import { ChannelGuard } from './channel.guard';
 import { UserResolver } from '../auth/user.resolver';
 import { NewChannelResolver, ChannelResolver } from './channel.resolver';
 import { ChannelCreateComponent } from './channel-create/channel-create.component';
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
-import { ChannelListComponent } from './channel-list/channel-list.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       {
         path: 'channels',
-        canActivate: [AuthGuard],
-        resolve: { user: UserResolver },
+        // canActivate: [AuthGuard],
+        // resolve: { user: UserResolver },
         children: [
           {
             path: '',

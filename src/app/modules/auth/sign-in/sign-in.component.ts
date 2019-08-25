@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.css']
 })
-export class LoginComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
   user: User;
 
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     this.afAuth.auth
     .getRedirectResult()
       .then(r => {
-        this.user = r.user;
+        this.user = r.user || this.afAuth.auth.currentUser;
       }, err => {
         alert(err);
       });

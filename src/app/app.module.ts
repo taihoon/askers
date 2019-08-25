@@ -1,19 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { AuthModule } from '@app/modules/auth/auth.module';
+import { ChannelModule } from '@app/modules/channel/channel.module';
+import { AppComponent } from '@app/app.component';
+import { HomeComponent } from '@app/modules/home/home.component';
+
 import { environment } from '../environments/environment';
-import { SharedModule } from './shared/shared.module';
-import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from './auth/auth.module';
-import { ChannelModule } from './channel/channel.module';
-import { PostModule } from './post/post.module';
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { HomeComponent } from './home/home.component';
+import { AppInitService } from '@app/core/app-init.service';
+
+export function init(appInitService: AppInitService) {
+  return () => appInitService.init();
+}
 
 @NgModule({
   imports: [
@@ -21,18 +23,18 @@ import { HomeComponent } from './home/home.component';
     AngularFireModule.initializeApp(environment.firebase, 'askers-web'),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    FormsModule,
-    SharedModule,
-    AppRoutingModule,
     AuthModule,
     ChannelModule,
-    PostModule
+    AppRoutingModule,
   ],
   declarations: [
     AppComponent,
-    HeaderComponent,
     HomeComponent,
-    FooterComponent
+  ],
+  providers: [
+    AngularFireAuthGuard,
+    AppInitService,
+    { provide: APP_INITIALIZER, useFactory: init, deps: [AppInitService], multi: true }
   ],
   bootstrap: [AppComponent]
 })

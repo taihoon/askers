@@ -8,10 +8,10 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { AuthModule } from '@app/modules/auth/auth.module';
 import { ChannelModule } from '@app/modules/channel/channel.module';
 import { AppComponent } from '@app/app.component';
-import { HomeComponent } from '@app/modules/home/home.component';
 
-import { environment } from '../environments/environment';
 import { AppInitService } from '@app/core/app-init.service';
+import { HomeComponent } from '@app/modules/home/home.component';
+import { environment } from '../environments/environment';
 
 export function init(appInitService: AppInitService) {
   return () => appInitService.init();
@@ -20,7 +20,7 @@ export function init(appInitService: AppInitService) {
 @NgModule({
   imports: [
     BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase, 'askers-web'),
+    AngularFireModule.initializeApp(environment.firebase, 'web'),
     AngularFireAuthModule,
     AngularFirestoreModule,
     AuthModule,

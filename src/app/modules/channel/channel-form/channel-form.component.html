@@ -1,0 +1,25 @@
+<h2>create channel</h2>
+<form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="title">제목</label>
+    <input type="text" id="title" minlength="2" maxlength="200" formControlName="title">
+  </div>
+  <div>
+    <label for="code">코드</label>
+    <input type="text" id="code" minlength="2" maxlength="100" formControlName="code">
+  </div>
+  <div>
+    <label for="desc">설명</label>
+    <textarea id="desc" minlength="2" maxlength="2000" formControlName="desc"></textarea>
+  </div>
+  <div>
+    <label for="start">시작</label>
+    <input type="datetime-local" id="start" formControlName="start">
+  </div>
+  <div>
+    <label for="end">종료</label>
+    <input type="datetime-local" id="end" formControlName="end">
+  </div>
+  <button type="submit">만들기</button>
+</form>
+

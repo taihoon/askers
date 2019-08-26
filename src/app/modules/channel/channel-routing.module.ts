@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ChannelListComponent } from './channel-list/channel-list.component';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { ChannelCreateComponent } from './channel-create/channel-create.component';
+import { ChannelListComponent } from './channel-list/channel-list.component';
 
 @NgModule({
   imports: [
@@ -9,6 +10,11 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
       {
         path: 'channels',
         component: ChannelListComponent,
+        canActivate: [AngularFireAuthGuard]
+      },
+      {
+        path: 'channels/new',
+        component: ChannelCreateComponent,
         canActivate: [AngularFireAuthGuard]
       }
     ])

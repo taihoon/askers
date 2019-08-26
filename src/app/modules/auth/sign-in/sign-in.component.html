@@ -1,22 +1,31 @@
 <h2>login</h2>
 
-<ul *ngIf="!user">
-  <li>
-    <a href="#" (click)="onClickSignIn($event, 'github')">github login</a>
-  </li>
-  <li>
-    <a href="#" (click)="onClickSignIn($event, 'google')">google login</a>
-  </li>
-  <li>
-    <a href="#" (click)="onClickSignIn($event, 'facebook')">facebook login</a>
-  </li>
-</ul>
+<ng-container *ngIf="!user">
+  <p>hello!</p>
+  <ul>
+    <li>
+      <a href="#" (click)="onClickSignIn($event, 'github')">github login</a>
+    </li>
+    <li>
+      <a href="#" (click)="onClickSignIn($event, 'google')">google login</a>
+    </li>
+    <li>
+      <a href="#" (click)="onClickSignIn($event, 'facebook')">facebook login</a>
+    </li>
+  </ul>
+</ng-container>
 
-<ul *ngIf="user">
-  <li>
-    hello {{ user.displayName }} <a href="#">이동</a>
-  </li>
-  <li>
-    <a href="#" (click)="onClickSignOut($event)">logout</a>
-  </li>
-</ul>
+<ng-container *ngIf="user">
+  <p>hello {{ user.displayName }}!</p>
+  <ul>
+    <li>
+      <a [routerLink]="['/']">홈으로</a>
+    </li>
+    <li>
+      <a [routerLink]="['/channels/new']">새 채널</a>
+    </li>
+    <li>
+      <a href="#" (click)="onClickSignOut($event)">logout</a>
+    </li>
+  </ul>
+</ng-container>

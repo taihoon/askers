@@ -17,6 +17,7 @@
 
 <ng-container *ngIf="user">
   <p>hello {{ user.displayName }}!</p>
+  <div><img [src]="user.photoURL" width="100" [alt]="user.displayName"></div>
   <ul>
     <li>
       <a [routerLink]="['/']">홈으로</a>

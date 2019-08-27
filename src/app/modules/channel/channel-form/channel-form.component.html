@@ -2,15 +2,18 @@
 <form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="title">제목</label>
-    <input type="text" id="title" minlength="2" maxlength="200" formControlName="title">
+    <input type="text" id="title" minlength="2" maxlength="200" formControlName="title"
+      placeholder="채널 제목을 입력하세요.">
   </div>
   <div>
     <label for="code">코드</label>
-    <input type="text" id="code" minlength="2" maxlength="100" formControlName="code">
+    <input type="text" id="code" minlength="2" maxlength="100" formControlName="code"
+      placeholder="채널 접속 코드를 입력하세요(영문 2자이상).">
   </div>
   <div>
     <label for="desc">설명</label>
-    <textarea id="desc" minlength="2" maxlength="2000" formControlName="desc"></textarea>
+    <textarea id="desc" minlength="2" maxlength="2000" formControlName="desc"
+      placeholder="채널에 대한 설명을 입력하세요."></textarea>
   </div>
   <div>
     <label for="start">시작</label>

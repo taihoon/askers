@@ -1,7 +1,7 @@
+import { auth } from 'firebase/app';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
-import { User } from '@app/core/models/user';
+import { User } from '@app/core/models';
 
 export enum AuthProvider {
   Github = 'github',
@@ -18,10 +18,11 @@ export class AuthService {
   }
 
   get currentUser() {
-    const { uid, displayName } = this.afAuth.auth.currentUser;
+    const { uid, displayName, photoURL } = this.afAuth.auth.currentUser;
     return {
       id: uid,
-      displayName
+      displayName,
+      photoURL
     };
   }
 

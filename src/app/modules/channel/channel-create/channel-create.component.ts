@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewChannel } from '@app/core/models/channel';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthService, UserService } from '@app/core/http';
 import { firestore } from 'firebase/app';
 
 @Component({
@@ -14,16 +13,20 @@ export class ChannelCreateComponent implements OnInit {
   newChannel: NewChannel;
 
   constructor(
-    private afAuth: AngularFireAuth,
-    private afs: AngularFirestore
+    private authService: AuthService,
+    private userService: UserService
   ) {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
     this.newChannel = {
-      userRef: this.afs.doc(`users/${afAuth.auth.currentUser.uid}`).ref,
+      userRef: this.userService.getUserRef(this.authService.currentUser.id),
       code: '',
       title: '',
       desc: '',
-      start: firestore.Timestamp.now(),
-      end: firestore.Timestamp.now(),
+      start: firestore.Timestamp.fromDate(today),
+      end: firestore.Timestamp.fromDate(tomorrow),
       created: firestore.FieldValue.serverTimestamp()
     };
   }

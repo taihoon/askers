@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { auth, User } from 'firebase/app';
-import { Router } from '@angular/router';
+import { AuthProvider, AuthService } from '@app/core/http/auth.service';
+import { NewUser, User } from '@app/core/models/user';
+import { UserService } from '@app/core/http/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,47 +10,33 @@ import { Router } from '@angular/router';
 })
 export class SignInComponent implements OnInit {
 
-  user: User;
+  user: User | void;
 
   constructor(
-    public afAuth: AngularFireAuth
+    private authService: AuthService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.afAuth.auth
-    .getRedirectResult()
-      .then(r => {
-        this.user = r.user || this.afAuth.auth.currentUser;
-      }, err => {
-        alert(err);
+    if (this.authService.currentUser) {
+      this.user = this.authService.currentUser;
+    } else {
+      this.authService.getRedirectResult().then(u => {
+        if (u) {
+          this.userService.createUser(u.id, {} as NewUser);
+        }
       });
+    }
   }
 
-  onClickSignIn(e: MouseEvent, type: string) {
+  onClickSignIn(e: MouseEvent, provider: AuthProvider) {
     e.preventDefault();
-
-    let provider;
-    switch (type) {
-      case 'facebook':
-        provider = new auth.FacebookAuthProvider();
-        break;
-      case 'google':
-        provider = new auth.GoogleAuthProvider();
-        break;
-      case 'github':
-        provider = new auth.GithubAuthProvider();
-        break;
-      default:
-    }
-
-    this.afAuth.auth.signInWithRedirect(provider);
+    this.authService.signIn(provider);
   }
 
   onClickSignOut(e: MouseEvent) {
     e.preventDefault();
-    this.afAuth.auth
-      .signOut()
-      .then(r => {
+    this.authService.signOut().then(r => {
         this.user = null;
       });
   }

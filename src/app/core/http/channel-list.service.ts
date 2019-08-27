@@ -11,9 +11,7 @@ import { Channel } from '@app/core/models/channel';
 export class ChannelListService {
   private collection: AngularFirestoreCollection<Channel>;
 
-  constructor(
-    private afs: AngularFirestore
-  ) {
+  constructor(private afs: AngularFirestore) {
     this.collection = afs.collection<Channel>('channels');
   }
 

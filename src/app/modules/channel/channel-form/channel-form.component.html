@@ -2,27 +2,39 @@
 <form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="title">제목</label>
-    <input type="text" id="title" minlength="2" maxlength="200" formControlName="title"
-      placeholder="채널 제목을 입력하세요.">
+    <input type="text" id="title" formControlName="title" placeholder="채널 제목을 2자 이상 입력하세요."
+           required minlength="2" maxlength="200">
+    <ng-container *ngIf="channelForm.get('title'); let title">
+      <p *ngIf="title.invalid && (title.dirty || title.touched)">채널 제목을 2자 이상 입력하세요.</p>
+    </ng-container>
+
   </div>
   <div>
     <label for="code">코드</label>
-    <input type="text" id="code" minlength="2" maxlength="100" formControlName="code"
-      placeholder="채널 접속 코드를 입력하세요(영문 2자이상).">
+    <input type="text" id="code"  formControlName="code" placeholder="채널 접속 코드를 영어로 2자 이상 입력하세요."
+           required minlength="2" maxlength="100" #code="ngModel">
+    <p *ngIf="code.invalid && (code.dirty || code.touched)">채널 접속 코드를 영어로 2자 이상 입력하세요..</p>
   </div>
   <div>
     <label for="desc">설명</label>
-    <textarea id="desc" minlength="2" maxlength="2000" formControlName="desc"
-      placeholder="채널에 대한 설명을 입력하세요."></textarea>
+    <textarea id="desc" formControlName="desc" placeholder="채널에 대한 설명을 입력하세요."
+              required minlength="3" maxlength="2000" #desc="ngModel"></textarea>
+    <p *ngIf="desc.invalid && (desc.dirty || desc.touched)">채널에 대한 설명을 3자 이상 입력하세요.</p>
   </div>
   <div>
     <label for="start">시작</label>
-    <input type="datetime-local" id="start" formControlName="start">
+    <input type="datetime-local" id="start" formControlName="start" required #start="ngModel">
+    <p *ngIf="start.invalid && (start.dirty || start.touched)">시작일을 정확히 입력하세요.</p>
   </div>
   <div>
     <label for="end">종료</label>
-    <input type="datetime-local" id="end" formControlName="end">
+    <input type="datetime-local" id="end" formControlName="end" required #end="ngModel">
+    <p *ngIf="end.invalid && (end.dirty || end.touched)">시작일을 정확히 입력하세요.</p>
   </div>
-  <button type="submit">만들기</button>
+  <button type="submit" [disabled]="channelForm.invalid">만들기</button>
+
+  <p>{{ channelForm.valid }} / {{ channelForm.invalid }}</p>
+  <p>{{ channelForm.value | json }}</p>
+
 </form>
 

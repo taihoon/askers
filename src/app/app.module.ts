@@ -10,6 +10,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AuthModule } from '@app/modules/auth/auth.module';
 import { ChannelModule } from '@app/modules/channel/channel.module';
+import { SharedModule} from '@app/shared/shared.module';
 import { AppInitService } from '@app/core/app-init.service';
 import { AppComponent } from '@app/app.component';
 import { HomeComponent } from '@app/modules/home/home.component';
@@ -29,10 +30,11 @@ export function init(appInitService: AppInitService) {
     AppRoutingModule,
     AuthModule,
     ChannelModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomeComponent
   ],
   providers: [
     AngularFireAuthGuard,

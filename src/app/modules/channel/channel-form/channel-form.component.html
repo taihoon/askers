@@ -1,40 +1,47 @@
 <h2>create channel</h2>
+
 <form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="title">제목</label>
-    <input type="text" id="title" formControlName="title" placeholder="채널 제목을 2자 이상 입력하세요."
-           required minlength="2" maxlength="200">
-    <ng-container *ngIf="channelForm.get('title'); let title">
-      <p *ngIf="title.invalid && (title.dirty || title.touched)">채널 제목을 2자 이상 입력하세요.</p>
-    </ng-container>
-
+    <input type="text" id="title" formControlName="title"
+           placeholder="채널 제목을 2자 이상 입력하세요.">
+    <p *ngIf="title.invalid && (title.dirty || title.touched)">
+      채널 제목을 2자 이상 입력하세요.
+    </p>
   </div>
   <div>
     <label for="code">코드</label>
-    <input type="text" id="code"  formControlName="code" placeholder="채널 접속 코드를 영어로 2자 이상 입력하세요."
-           required minlength="2" maxlength="100" #code="ngModel">
-    <p *ngIf="code.invalid && (code.dirty || code.touched)">채널 접속 코드를 영어로 2자 이상 입력하세요..</p>
+    <input type="text" id="code" formControlName="code"
+           placeholder="채널 접속 코드를 영어로 2자 이상 입력하세요.">
+    <p *ngIf="code.invalid && (code.dirty || code.touched)">
+      채널 접속 코드를 영어로 2자 이상 입력하세요.
+    </p>
   </div>
   <div>
     <label for="desc">설명</label>
-    <textarea id="desc" formControlName="desc" placeholder="채널에 대한 설명을 입력하세요."
-              required minlength="3" maxlength="2000" #desc="ngModel"></textarea>
-    <p *ngIf="desc.invalid && (desc.dirty || desc.touched)">채널에 대한 설명을 3자 이상 입력하세요.</p>
+    <textarea id="desc" formControlName="desc"
+              placeholder="채널에 대한 설명을 입력하세요."></textarea>
+    <p *ngIf="desc.invalid && (desc.dirty || desc.touched)">
+      채널에 대한 설명을 3자 이상 입력하세요.
+    </p>
   </div>
   <div>
     <label for="start">시작</label>
-    <input type="datetime-local" id="start" formControlName="start" required #start="ngModel">
-    <p *ngIf="start.invalid && (start.dirty || start.touched)">시작일을 정확히 입력하세요.</p>
+    <input type="datetime-local" id="start" formControlName="start">
+    <p *ngIf="start.invalid && (start.dirty || start.touched)">
+      시작일을 정확히 입력하세요.
+    </p>
   </div>
   <div>
     <label for="end">종료</label>
-    <input type="datetime-local" id="end" formControlName="end" required #end="ngModel">
-    <p *ngIf="end.invalid && (end.dirty || end.touched)">시작일을 정확히 입력하세요.</p>
+    <input type="datetime-local" id="end" formControlName="end">
+    <p *ngIf="end.invalid && (end.dirty || end.touched)">
+      종료일을 정확히 입력하세요.
+    </p>
+    <p *ngIf="channelForm.errors?.channelDate">
+      시작일/종료일을 정확히 입력하세요. 시작일은 종료일 이전이어야 하며 종료일은 현재시간 이후이어야 합니다.
+    </p>
   </div>
   <button type="submit" [disabled]="channelForm.invalid">만들기</button>
-
-  <p>{{ channelForm.valid }} / {{ channelForm.invalid }}</p>
-  <p>{{ channelForm.value | json }}</p>
-
 </form>
 

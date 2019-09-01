@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChannelListService } from './channel-list.service';
+import { FirestoreService } from './firestore.service';
 
-describe('ChannelListService', () => {
+describe('FirestoreService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ChannelListService = TestBed.get(ChannelListService);
+    const service: FirestoreService = TestBed.get(FirestoreService);
     expect(service).toBeTruthy();
   });
 });

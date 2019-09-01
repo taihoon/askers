@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewChannel } from '@app/core/models/channel';
-import { AuthService, UserService } from '@app/core/http';
+import { AuthService, ChannelService, UserService } from '@app/core/http';
 import { firestore } from 'firebase/app';
 import addDays from 'date-fns/addDays';
 import addMinutes from 'date-fns/addMinutes';
@@ -18,7 +18,7 @@ export class ChannelCreateComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    // private channelService: ChannelService
+    private channelService: ChannelService
   ) {
     const start = setSeconds(addMinutes(new Date(), 10), 0);
     const end = addDays(start, 1);
@@ -37,8 +37,8 @@ export class ChannelCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
-
+  onSubmitChannelAdd() {
+    this.channelService.add(this.newChannel);
   }
 
 }

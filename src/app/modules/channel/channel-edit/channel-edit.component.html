@@ -1,0 +1,7 @@
+<h2>edit channel</h2>
+
+<app-channel-form
+  *ngIf="channel"
+  [channel]="channel"
+  (channelSubmit)="onSubmitChannelUpdate()">
+</app-channel-form>

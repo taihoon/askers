@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NewChannel } from '@app/core/models/channel';
 import { AuthService, ChannelService, UserService } from '@app/core/http';
 import { firestore } from 'firebase/app';
@@ -16,6 +17,7 @@ export class ChannelCreateComponent implements OnInit {
   newChannel: NewChannel;
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private userService: UserService,
     private channelService: ChannelService
@@ -38,7 +40,8 @@ export class ChannelCreateComponent implements OnInit {
   }
 
   onSubmitChannelAdd() {
-    this.channelService.add(this.newChannel);
+    this.channelService.add(this.newChannel)
+      .then(_ => this.router.navigate(['/channels']));
   }
 
 }

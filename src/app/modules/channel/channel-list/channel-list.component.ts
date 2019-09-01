@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '@app/core/http';
 import { ChannelService } from '@app/core/http/channel.service';
@@ -14,6 +14,7 @@ export class ChannelListComponent implements OnInit {
   channelList$: Observable<any>;
 
   constructor(
+    private renderer: Renderer2,
     private authService: AuthService,
     private channelService: ChannelService
   ) { }
@@ -22,9 +23,12 @@ export class ChannelListComponent implements OnInit {
     this.channelList$ = this.channelService.searchByUserId(this.authService.currentUser.id);
   }
 
-  onClickDeleteChannel(e: Event, channel: Channel) {
+  onClickDeleteChannel(e: Event, channel: Channel, channelItemRef: ElementRef) {
     e.preventDefault();
-    this.channelService.delete(channel);
+    if (confirm('삭제 할까요?')) {
+      this.channelService.delete(channel)
+        .then(_ => this.renderer.setStyle(channelItemRef, 'display', 'none'));
+    }
   }
 
 }

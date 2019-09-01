@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelService } from '@app/core/http';
 import { Channel } from '@app/core/models';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-channel-edit',
@@ -13,6 +13,7 @@ export class ChannelEditComponent implements OnInit {
   channel: Channel;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private channelService: ChannelService
   ) { }
@@ -23,7 +24,8 @@ export class ChannelEditComponent implements OnInit {
   }
 
   onSubmitChannelUpdate() {
-    this.channelService.update(this.channel);
+    this.channelService.update(this.channel)
+      .then(_ => this.router.navigate(['/channels']));
   }
 
 }

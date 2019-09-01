@@ -1,6 +1,10 @@
 <h2> channel list</h2>
 
-<ul *ngFor="let channel of channelList$ | async">
+<div>
+  <a [routerLink]="['new']">채널 만들기</a>
+</div>
+
+<ul *ngFor="let channel of channelList$ | async" #channelItemRef>
   <li>
     title:
     {{ channel.title }}
@@ -29,8 +33,9 @@
     </a>
   </li>
   <li>
-    <a href="#" (click)="onClickDeleteChannel($event, channel)">
+    <a href="#" (click)="onClickDeleteChannel($event, channel, channelItemRef)">
       삭제
     </a>
   </li>
 </ul>
+

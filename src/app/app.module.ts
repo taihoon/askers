@@ -10,6 +10,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AuthModule } from '@app/modules/auth/auth.module';
 import { ChannelModule } from '@app/modules/channel/channel.module';
+import { PostModule } from '@app/modules/post/post.module';
 import { AppInitService } from '@app/core/app-init.service';
 import { AppComponent } from '@app/app.component';
 import { HomeComponent } from '@app/modules/home/home.component';
@@ -28,7 +29,8 @@ export function init(appInitService: AppInitService) {
     AngularFirestoreModule,
     AppRoutingModule,
     AuthModule,
-    ChannelModule
+    ChannelModule,
+    PostModule
   ],
   declarations: [
     AppComponent,

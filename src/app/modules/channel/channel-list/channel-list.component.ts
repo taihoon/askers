@@ -10,8 +10,7 @@ import { Channel } from '@app/core/models';
   styleUrls: ['./channel-list.component.css']
 })
 export class ChannelListComponent implements OnInit {
-
-  channelList$: Observable<any>;
+  channelList$: Observable<Channel[]>;
 
   constructor(
     private renderer: Renderer2,

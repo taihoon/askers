@@ -2,7 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import * as firebase from 'firebase/app';
+import { firestore } from 'firebase/app';
+
+export interface SearchOptions {
+  where: [string, string, any];
+  orderBy?: [string, string?];
+  limit?: number;
+  startAt?: firestore.DocumentSnapshot;
+  startAfter?: firestore.DocumentSnapshot;
+  endAt?: firestore.DocumentSnapshot;
+  endBefore?: firestore.DocumentSnapshot;
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +27,8 @@ export abstract class FirestoreService<T> {
     this.collection = afs.collection<any>(this.path);
   }
 
-  protected getUserRef(userId: string) {
-    return this.afs.doc(`users/${userId}`).ref;
+  public getDocRef(docId: string) {
+    return this.afs.doc(`${this.path}/${docId}`).ref;
   }
 
   public add(doc: Partial<T>) {
@@ -47,11 +58,20 @@ export abstract class FirestoreService<T> {
     return this.collection.doc(doc['id']).delete();
   }
 
+  public search(options: [string, string, any][]) {
+    this.afs.collection<T>(this.collection.ref, ref => {
+      let query: firestore.CollectionReference | firestore.Query = ref;
+      options.forEach(option => {
+        query = query.where(option[0], option[1], option[2])
+      })
+    })
+  }
+
   public searchByUserId(userId: string): Observable<T[]> {
-    const userRef = this.getUserRef(userId);
+    const userRef = this.afs.doc(`users/${userId}`).ref;
     return this.afs
       .collection<T>(this.collection.ref, ref => {
-        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        let query: firestore.CollectionReference | firestore.Query = ref;
         query = query.where('userRef', '==', userRef);
         return query;
       })

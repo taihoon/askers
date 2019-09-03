@@ -23,7 +23,7 @@ export class ChannelEditComponent implements OnInit {
     this.channelService.get(channelId).subscribe(c => this.channel = c);
   }
 
-  onSubmitChannelUpdate() {
+  onSubmitChannel() {
     this.channelService.update(this.channel)
       .then(_ => this.router.navigate(['/channels']));
   }

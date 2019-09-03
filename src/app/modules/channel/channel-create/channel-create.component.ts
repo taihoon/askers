@@ -26,7 +26,7 @@ export class ChannelCreateComponent implements OnInit {
     const end = addDays(start, 1);
 
     this.newChannel = {
-      userRef: this.userService.getUserRef(this.authService.currentUser.id),
+      userRef: this.userService.getDocRef(this.authService.currentUser.id),
       code: '',
       title: '',
       desc: '',
@@ -39,7 +39,7 @@ export class ChannelCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmitChannelAdd() {
+  onSubmitChannel() {
     this.channelService.add(this.newChannel)
       .then(_ => this.router.navigate(['/channels']));
   }

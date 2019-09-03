@@ -22,7 +22,7 @@ export class SignInComponent implements OnInit {
     } else {
       this.authService.getRedirectResult().then(u => {
         if (u) {
-          this.userService.createUser(u.id, {} as NewUser);
+          this.userService.setUser(u.id, {} as NewUser);
         }
       });
     }

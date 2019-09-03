@@ -20,25 +20,26 @@ const channelDateValidator: ValidatorFn = (control: FormGroup): ValidationErrors
 })
 export class ChannelFormComponent implements OnInit {
   @Input() channel: NewChannel | Channel;
-  @Output() channelSubmit = new EventEmitter<null>();
-  channelForm: FormGroup;
-  get title() { return this.channelForm.get('title'); }
-  get code() { return this.channelForm.get('code'); }
-  get desc() { return this.channelForm.get('desc'); }
-  get start() { return this.channelForm.get('start'); }
-  get end() { return this.channelForm.get('end'); }
+  @Output() submitChannel = new EventEmitter<null>();
+  form: FormGroup;
+  get title() { return this.form.get('title'); }
+  get code() { return this.form.get('code'); }
+  get desc() { return this.form.get('desc'); }
+  get start() { return this.form.get('start'); }
+  get end() { return this.form.get('end'); }
 
   constructor(private fb: FormBuilder) {
   }
 
   ngOnInit() {
     const v = Validators;
-    this.channelForm = this.fb.group({
-      title: [this.channel.title, [v.required, v.minLength(2), v.maxLength(200)]],
-      code: [this.channel.code, [v.required, v.minLength(2), v.maxLength(100)]],
-      desc: [this.channel.desc, [v.required, v.minLength(2), v.maxLength(2000)]],
-      start: [toISOLocalString(this.channel.start.toDate()), v.required],
-      end: [toISOLocalString(this.channel.end.toDate()), v.required]
+    const c = this.channel;
+    this.form = this.fb.group({
+      title: [c.title, [v.required, v.minLength(2), v.maxLength(200)]],
+      code: [c.code, [v.required, v.minLength(2), v.maxLength(100)]],
+      desc: [c.desc, [v.required, v.minLength(2), v.maxLength(2000)]],
+      start: [toISOLocalString(c.start.toDate()), v.required],
+      end: [toISOLocalString(c.end.toDate()), v.required]
     }, { validators: [channelDateValidator] });
   }
 
@@ -48,7 +49,7 @@ export class ChannelFormComponent implements OnInit {
     this.channel.desc = this.desc.value;
     this.channel.start = firestore.Timestamp.fromDate(parseISO(this.start.value));
     this.channel.end = firestore.Timestamp.fromDate(parseISO(this.end.value));
-    this.channelSubmit.emit();
+    this.submitChannel.emit();
   }
 
 }

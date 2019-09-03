@@ -1,1 +1,16 @@
-<p>post-form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="contents">내용</label>
+    <textarea id="contents" formControlName="contents"></textarea>
+    <p *ngIf="contents.invalid && (contents.dirty || contents.touched)">
+      내용을 입력하세요.
+    </p>
+  </div>
+  <div>
+    <label for="notice">공지</label>
+    <input type="checkbox" id="notice" formControlName="notice">
+  </div>
+  <button type="submit" [disabled]="form.invalid">
+    {{ !post.id ? '등록' : '수정' }}
+  </button>
+</form>

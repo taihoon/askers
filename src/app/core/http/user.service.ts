@@ -13,11 +13,11 @@ export class UserService {
     this.collection = afs.collection<Partial<User>>('users');
   }
 
-  createUser(id: string, user: NewUser) {
+  setUser(id: string, user: NewUser) {
     return this.collection.doc(id).set(user);
   }
 
-  getUserRef(id: string) {
+  getDocRef(id: string) {
     return this.afs.doc(`users/${id}`).ref;
   }
 }

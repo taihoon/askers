@@ -1,4 +1,4 @@
-<form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div>
     <label for="title">제목</label>
     <input type="text" id="title" formControlName="title"
@@ -36,11 +36,11 @@
     <p *ngIf="end.invalid && (end.dirty || end.touched)">
       종료일을 정확히 입력하세요.
     </p>
-    <p *ngIf="channelForm.errors?.channelDate">
+    <p *ngIf="form.errors?.channelDate">
       시작일/종료일을 정확히 입력하세요. 시작일은 종료일 이전이어야 하며 종료일은 현재시간 이후이어야 합니다.
     </p>
   </div>
-  <button type="submit" [disabled]="channelForm.invalid">
+  <button type="submit" [disabled]="form.invalid">
     {{ !channel.id ? '등록' : '수정' }}
   </button>
 </form>

@@ -12,4 +12,12 @@ export class ChannelService extends FirestoreService<Channel> {
     super(afs, 'channels');
   }
 
+  public getChannelsByUserId(userId: string) {
+    const userRef = this.afs.doc(`users/${userId}`).ref;
+    return this.query({
+      where: [['userRef', '==', userRef]],
+      orderBy: [['created', 'desc']]
+    });
+  }
+
 }

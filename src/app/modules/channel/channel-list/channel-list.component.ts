@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from '@app/core/http';
+import { AuthService, UserService } from '@app/core/http';
 import { ChannelService } from '@app/core/http/channel.service';
 import { Channel } from '@app/core/models';
 
@@ -15,11 +15,13 @@ export class ChannelListComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private authService: AuthService,
-    private channelService: ChannelService
+    private channelService: ChannelService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.channelList$ = this.channelService.searchByUserId(this.authService.currentUser.id);
+    const userId = this.authService.currentUser.id;
+    this.channelList$ = this.channelService.getChannelsByUserId(userId);
   }
 
   onClickDeleteChannel(e: Event, channel: Channel, channelItemRef: ElementRef) {

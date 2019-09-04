@@ -1,6 +1,29 @@
-<p>post-list works!</p>
+<h2> post list</h2>
 
 <app-post-form
   [post]="newPost"
   (submitPost)="onSubmitPost()">
 </app-post-form>
+
+<h3>notice</h3>
+<ul *ngFor="let post of noticePostList$ | async">
+  <li>
+    {{ post.contents }}
+  </li>
+</ul>
+
+<h3>post</h3>
+<ul *ngFor="let post of postList$ | async">
+  <li>
+    {{ post.contents }}
+  </li>
+  <li>
+    favorites:
+    <a href="#" (click)="onClickToggleFavorite($event, post)">
+       {{ post.favoriteCount }}
+    </a>
+  </li>
+  <li>
+    {{ post.created.toDate() | distanceToNow }}
+  </li>
+</ul>

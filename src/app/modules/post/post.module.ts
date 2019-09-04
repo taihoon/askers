@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PostRoutingModule } from '@app/modules/post/post-routing.module';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostFormComponent } from './post-form/post-form.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { PostFormComponent } from './post-form/post-form.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    PostRoutingModule
+    PostRoutingModule,
+    SharedModule
   ]
 })
 export class PostModule { }

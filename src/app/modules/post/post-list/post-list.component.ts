@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase/app';
-import { Channel, NewPost } from '@app/core/models';
+import { NewPost, Post } from '@app/core/models';
 import { AuthService, ChannelService, PostService, UserService } from '@app/core/http';
 import { Observable } from 'rxjs';
 
@@ -11,8 +11,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit {
-  postList$: Observable<Channel[]>;
   newPost: NewPost;
+  noticePostList$: Observable<Post[]>;
+  postList$: Observable<Post[]>;
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -22,11 +23,11 @@ export class PostListComponent implements OnInit {
   }
 
   ngOnInit() {
-    const channelId = this.route.snapshot.paramMap.get('channelId');
     this.newPost = this.getNewPost();
-    this.postList$ = this.postService.search([
-      ['channelRef', '==', this.channelService.getDocRef(channelId)]
-    ]);
+
+    const channelId = this.route.snapshot.paramMap.get('channelId');
+    this.noticePostList$ = this.postService.getNoticePostsByChannelId(channelId);
+    this.postList$ = this.postService.getStreamPostsByChannelId(channelId);
   }
 
   private getNewPost() {
@@ -42,6 +43,11 @@ export class PostListComponent implements OnInit {
       favorites: [],
       created: firestore.FieldValue.serverTimestamp()
     } as NewPost;
+  }
+
+  onClickToggleFavorite(e: Event, post: Post) {
+    e.preventDefault();
+    console.log(post);
   }
 
   onSubmitPost() {

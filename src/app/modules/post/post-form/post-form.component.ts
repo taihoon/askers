@@ -24,7 +24,6 @@ export class PostFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes.post) {
       const v = Validators;
       const p = changes.post.currentValue as (NewPost | Post);

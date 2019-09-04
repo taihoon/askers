@@ -6,8 +6,7 @@
 
 <ul *ngFor="let channel of channelList$ | async" #channelItemRef>
   <li>
-    title:
-    {{ channel.title }}
+    title: {{ channel.title }}
   </li>
   <li>
     code:
@@ -16,16 +15,16 @@
     </a>
   </li>
   <li>
-    desc:
-    {{ channel.desc }}
+    desc: {{ channel.desc }}
   </li>
   <li>
-    start:
-    {{ channel.start.toDate().toLocaleString() }}
+    start: {{ channel.start.toDate().toLocaleString() }}
   </li>
   <li>
-    end:
-    {{ channel.end.toDate().toLocaleString() }}
+    end: {{ channel.end.toDate().toLocaleString() }}
+  </li>
+  <li>
+    created: {{ channel.created.toDate().toLocaleString() }}
   </li>
   <li>
     <a [routerLink]="[channel.id, 'edit']">

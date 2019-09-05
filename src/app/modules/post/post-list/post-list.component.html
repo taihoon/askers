@@ -24,6 +24,6 @@
     </a>
   </li>
   <li>
-    {{ post.created.toDate() | distanceToNow }}
+    {{ post.created?.toDate() | distanceToNow }} ago
   </li>
 </ul>

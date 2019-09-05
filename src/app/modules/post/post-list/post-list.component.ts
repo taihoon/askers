@@ -40,13 +40,15 @@ export class PostListComponent implements OnInit {
       notice: false,
       contents: '',
       favoriteCount: 0,
-      favorites: [],
+      favoriteUserRefs: [],
       created: firestore.FieldValue.serverTimestamp()
     } as NewPost;
   }
 
   onClickToggleFavorite(e: Event, post: Post) {
     e.preventDefault();
+    const userId = this.authService.currentUser.id;
+    this.postService.toggleFavorite(post.id, userId);
     console.log(post);
   }
 

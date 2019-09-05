@@ -47,9 +47,7 @@ export abstract class FirestoreService<T> {
       );
   }
 
-  public update(doc: T) {
-    const docId = doc['id'];
-    delete doc['id'];
+  public update(docId: string, doc: Partial<T>) {
     return this.collection.doc(docId).update(doc);
   }
 

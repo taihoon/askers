@@ -8,7 +8,7 @@ export interface Post {
   notice: boolean;
   contents: string;
   favoriteCount: number;
-  favorites: firestore.DocumentReference[];
+  favoriteUserRefs: firestore.DocumentReference[];
   created: firestore.Timestamp;
 }
 

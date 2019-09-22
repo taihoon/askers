@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, first, map, tap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { firestore } from 'firebase/app';
 
 export interface QueryOptions {
-  where: [string, firestore.WhereFilterOp, any][];
+  where?: [string, firestore.WhereFilterOp, any][];
   orderBy?: [string, firestore.OrderByDirection?][];
   limit?: number;
   startAt?: firestore.DocumentSnapshot;
@@ -26,12 +26,16 @@ export abstract class FirestoreService<T> {
     this.collection = afs.collection<any>(this.path);
   }
 
-  public getDocRef(docId: string) {
-    return this.afs.doc(`${this.path}/${docId}`).ref;
+  public create(id: string, doc: Partial<T>) {
+    return this.collection.doc(id).set(doc);
   }
 
   public add(doc: Partial<T>) {
     return this.collection.add(doc);
+  }
+
+  public getDocRef(docId: string) {
+    return this.afs.doc(`${this.path}/${docId}`).ref;
   }
 
   public get(docId: string): Observable<T> {
@@ -47,7 +51,14 @@ export abstract class FirestoreService<T> {
       );
   }
 
+  public getAll(orderBy: [string, firestore.OrderByDirection?][]) {
+    return this.query({ orderBy });
+  }
+
   public update(docId: string, doc: Partial<T>) {
+    if (doc['id']) {
+      delete doc['id'];
+    }
     return this.collection.doc(docId).update(doc);
   }
 

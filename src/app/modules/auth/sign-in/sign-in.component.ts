@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewUser, User } from '@app/core/models';
-import { AuthProvider, AuthService, UserService } from '@app/core/http';
+import { AuthService, UserService } from '@app/core/http';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import { AuthProvider, AuthService, UserService } from '@app/core/http';
 })
 export class SignInComponent implements OnInit {
 
-  user: User | void;
+  user: User;
 
   constructor(
     private authService: AuthService,
@@ -19,18 +19,22 @@ export class SignInComponent implements OnInit {
   ngOnInit() {
     if (this.authService.currentUser) {
       this.user = this.authService.currentUser;
+      console.log('1', this.user);
     } else {
-      this.authService.getRedirectResult().then(u => {
+      this.authService.getSignInWithRedirectResult().then(u => {
         if (u) {
-          this.userService.setUser(u.id, {} as NewUser);
+          console.log('2', u);
+          this.userService.create(u.id, {} as NewUser).then();
+        } else {
+          console.log('3', u);
         }
       });
     }
   }
 
-  onClickSignIn(e: MouseEvent, provider: AuthProvider) {
+  onClickSignIn(e: MouseEvent, provider: 'github' | 'google' | 'facebook') {
     e.preventDefault();
-    this.authService.signIn(provider);
+    this.authService.signInWithRedirect(provider).then();
   }
 
   onClickSignOut(e: MouseEvent) {

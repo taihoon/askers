@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { ChannelService } from '@app/core/http';
 import { Channel } from '@app/core/models';
 
@@ -14,17 +14,19 @@ export class ChannelEditComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteSnapshot,
     private channelService: ChannelService
   ) { }
 
   ngOnInit() {
-    const channelId = this.route.snapshot.params['channelId'];
+    const channelId = this.route.paramMap.get('channelId');
     this.channelService.get(channelId).subscribe(c => this.channel = c);
   }
 
   onSubmitChannel() {
-    this.channelService.update(this.channel)
+    const channelId = this.route.paramMap.get('channelId');
+    delete this.channel.id;
+    this.channelService.update(channelId, this.channel)
       .then(_ => this.router.navigate(['/channels']));
   }
 

@@ -12,4 +12,3 @@ export interface Channel {
 }
 
 export type NewChannel = Omit<Channel, 'id' | 'created'> & { created: firestore.FieldValue };
-

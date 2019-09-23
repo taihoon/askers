@@ -47,7 +47,12 @@ export class AuthService {
     return this.afAuth.user.pipe(
       map(u => {
         if (u) {
-          return { id: u.uid, email: u.email, displayName: u.displayName };
+          return {
+            id: u.uid,
+            email: u.email,
+            displayName: u.displayName,
+            photoURL: u.photoURL
+          };
         } else {
           return null;
         }
@@ -86,7 +91,8 @@ export class AuthService {
         return {
           id: r.user.uid,
           email: r.user.email,
-          displayName: r.user.displayName
+          displayName: r.user.displayName,
+          photoURL: r.user.photoURL
         } as User;
       } else {
         return null;

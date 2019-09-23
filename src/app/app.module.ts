@@ -18,7 +18,11 @@ import { first } from 'rxjs/operators';
 
 export function init(afAuth: AngularFireAuth) {
   return () => {
-    return afAuth.user.pipe(first());
+    return new Promise((resolve) => {
+      afAuth.user.pipe(
+        first()
+      ).subscribe(() => resolve());
+    });
   };
 }
 

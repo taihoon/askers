@@ -24,7 +24,7 @@
     "angularfire2": "^5.1.1",
     "core-js": "^2.6.2",
     "firebase": "^5.7.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "^2.23.0",
     "ngx-clipboard": "^11.1.9",
     "rxjs": "^6.3.3",

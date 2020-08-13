@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Post } from '../post';
 import { PostService } from '../post.service';
+import { PostSubscribeService } from '../post-subscribe.service';
 
 @Component({
   selector: 'app-post-form',
@@ -29,7 +30,10 @@ export class PostFormComponent implements OnInit {
   // }
 
   // TODO make it reactive forms
-  constructor(private postService: PostService) { }
+  constructor(
+    private postService: PostService,
+    private postSubscribeService: PostSubscribeService,
+  ) { }
 
   ngOnInit() {
     if (this.post) {
@@ -61,6 +65,8 @@ export class PostFormComponent implements OnInit {
 
       const contents = this.contents;
       this.contents = '';
+
+      this.postSubscribeService.resume();
 
       this.postService
         .savePost({

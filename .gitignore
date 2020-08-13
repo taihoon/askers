@@ -40,6 +40,7 @@ Thumbs.db
 
 # firebase
 .firebase
+firebase.config.ts
 
 # Config Files
 /src/environments/firebase.config.ts

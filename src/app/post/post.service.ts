@@ -3,7 +3,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import { Post, NewPost, UpdatedPost, PostWithReplies } from './post';
 import { AuthService } from '../auth/auth.service';
 import { groupBy } from 'lodash';
@@ -20,6 +20,7 @@ export class PostService {
 
   savePost(post: NewPost) {
     return this.authService.currentUserInfo.pipe(
+      first(),
       map(userInfo => this.authService.getAttechedUserRef(userInfo)),
       map(userInfo => ({
         user: userInfo,

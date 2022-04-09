@@ -25,7 +25,7 @@
     "core-js": "^2.6.2",
     "firebase": "^5.7.3",
     "lodash": "^4.17.11",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "ngx-clipboard": "^11.1.9",
     "rxjs": "^6.3.3",
     "showdown": "^1.9.0",
